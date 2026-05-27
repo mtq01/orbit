@@ -14,7 +14,8 @@ export default defineConfig({
       },
       // tells vite: name the output files after their input names (content.ts = content.js)
       output: {
-        entryFileNames: "[name].js"
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js"
       }
     }
   }
