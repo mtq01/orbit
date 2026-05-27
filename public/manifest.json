@@ -3,7 +3,7 @@
   "description": "Base Level Extension",
   "version": "0.1.0",
   "manifest_version": 3,
-  "permissions": ["sidePanel"],
+  "permissions": ["sidePanel", "scripting", "activeTab"],
   "side_panel": {
     "default_path": "index.html"
   },
@@ -12,5 +12,11 @@
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+    "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
 }
