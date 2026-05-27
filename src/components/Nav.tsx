@@ -21,8 +21,8 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
     <nav>
       {/*Note: No styles right now */}
       <button
-        onClick={() => onTabClick("scan")}
-        className={activeTab === "scan" ? "active" : ""}
+        onClick={() => onTabClick("scanner")}
+        className={activeTab === "scanner" ? "active" : ""}
       >
         Scan
       </button>
