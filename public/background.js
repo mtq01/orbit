@@ -20,3 +20,25 @@ chrome.action.onClicked.addListener((tab) => {
    without this code, clicking the orbit extension does NOTHING. 
 
 */
+
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "RUN_SCAN") {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+      console.log("targeting tab:", tabs[0]?.url, tabs[0]?.id);
+      if (!tabs[0]) {
+        sendResponse(null);
+        return;
+      }
+      chrome.tabs.sendMessage(tabs[0].id, { type: "RUN_SCAN" }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          sendResponse(null);
+          return;
+        }
+        sendResponse(response);
+      });
+    });
+    return true;
+  }
+});
