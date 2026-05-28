@@ -1,5 +1,3 @@
-console.log("content script loaded")
-
 // brings axe-core in. vite will bundle it to dist/content.js
 import axe from "axe-core"
 
