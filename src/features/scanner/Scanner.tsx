@@ -9,12 +9,12 @@ const Scanner = () => {
   const handleScan = () => {
     /* 
     [Function Flow]:
-      - Scanner.tsx > background.js > content.js > axe-core > content.js > background.js > Scanner.tsx
+      - Scanner.tsx > background.js > content.ts > axe-core > content.ts > background.js > Scanner.tsx
 
     [Step by Step]
       - user clicks "run scan" inside Scanner.tsx UI
-      - "run scan" triggers chrome.runtime.sendMessage and tells background.js to talk to content.js to talk to axe-core
-      - axe-core runs the scan and sends response back to content.js, which sends them to background.js, which sends them back to Scanner.tsx
+      - "run scan" triggers chrome.runtime.sendMessage and tells background.js to talk to content.ts to talk to axe-core
+      - axe-core runs the scan and sends response back to content.ts, which sends them to background.js, which sends them back to Scanner.tsx
 
     [Details]:
      - chrome.runtime.sendMessage is a function that talks to background.js  
