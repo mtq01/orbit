@@ -6,6 +6,9 @@ const Scanner = () => {
   // stores axe-core scan results. null until a scan has been run.
   const [results, setResults] = useState<AxeViolation[] | null>(null);
 
+  // error state
+  const [error, setError] = useState<string | null>(null);
+
   const handleScan = () => {
     /* 
     [Function Flow]:
@@ -23,8 +26,12 @@ const Scanner = () => {
      - setResults prints it in the UI
      */
     chrome.runtime.sendMessage({ type: "RUN_SCAN" }, (response) => {
-      // console.log(response) is for debugging
-      console.log(response.results.violations);
+
+      if (!response) {
+          setError("This page can't be scanned. Chrome blocks extensions on browser homepages and internal pages for security reasons.");        return;
+      }
+      // debugging: remove before production
+      console.log("Debugging:", response.results.violations);
       // stores the axe results in state so the UI can use them.
       setResults(response.results.violations);
     });
@@ -47,6 +54,10 @@ const Scanner = () => {
       {results ? <pre>{JSON.stringify(results, null, 2)}</pre> : null}
       {/*                             ^^^^^    ^^^   ^ 
                                       data     filter  indentation */}
+
+      {/* Error State: 
+      FYI an error will still show in console, but this error msg is whats happening. */}
+      {error ? <p>{error}</p> : null}
 
     </div>
 
