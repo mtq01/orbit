@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { AxeViolation } from "../../types";
+import type { AxeResults } from "../../types";
 
 
 const Scanner = () => {
   // state management for axe error results (3 key buckets)
-  const [results, setResults] = useState<AxeViolation[] | null>(null);
+  const [results, setResults] = useState<AxeResults | null>(null);
 
   // Uses Chromes msg system to send a RUN_SCAN msg thru the extension, and when a response comes back, log it.
   const handleScan = () => {
@@ -16,10 +16,8 @@ const Scanner = () => {
      - type: "RUN_SCAN" = the msg payload (what gets sent)
      - (response) => { ... } = the callback. auto runs when content.ts sends something back, logs the response and stores the results in state */
     chrome.runtime.sendMessage({ type: "RUN_SCAN" }, (response) => {
-      // console.log(response) is for debugging
-      console.log(response.results.violations);
       // stores the axe results in state so the UI can use them.
-      setResults(response.results.violations);
+      setResults(response.results);
     });
   };
 
