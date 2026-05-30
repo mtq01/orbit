@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { AxeViolation } from "../../types";
+import type { AxeResults } from "../../types";
 
 
 const Scanner = () => {
   // stores axe-core scan results. null until a scan has been run.
-  const [results, setResults] = useState<AxeViolation[] | null>(null);
+  const [results, setResults] = useState<AxeResults | null>(null);
 
   // error state
   const [error, setError] = useState<string | null>(null);
@@ -30,10 +30,8 @@ const Scanner = () => {
       if (!response) {
           setError("This page can't be scanned. Chrome blocks extensions on browser homepages and internal pages for security reasons.");        return;
       }
-      // debugging: remove before production
-      console.log("Debugging:", response.results.violations);
       // stores the axe results in state so the UI can use them.
-      setResults(response.results.violations);
+      setResults(response.results);
     });
   };
 
