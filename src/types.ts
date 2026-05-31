@@ -5,7 +5,7 @@ import type { NodeResult } from "axe-core";
 export type Tab = "scanner" | "tools" | "colors" | "checklist";
 
 
-export interface AxeViolation {
+export interface AxeResult {
     id: string;
     description: string;
     help: string;
@@ -14,3 +14,11 @@ export interface AxeViolation {
     // NodeResult[] = an array of NodeResult objects (DOM elements)
     nodes: NodeResult[];
 }
+
+
+export interface AxeResults{
+    violations: AxeResult[];
+    passes: AxeResult[];
+    incomplete: AxeResult[];
+}
+
