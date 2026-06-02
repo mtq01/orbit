@@ -131,7 +131,7 @@ const Scanner = () => {
       - .violations             = look at the violations array (from axe-core)
       - results?                = if results is not null, continue (? prevents a crash when results is still null before a scan has run)
       - .filter(v => v.impact   = loop thru all obj in the array & identify each violation.
-      - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing operator)
+      - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing)
 */}
       <section aria-label="Violations">
         <ImpactGroups impact="critical" violations={results?.violations.filter(v => v.impact === "critical") ?? []} />
