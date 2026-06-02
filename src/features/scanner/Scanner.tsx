@@ -14,7 +14,13 @@ const Scanner = () => {
           "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
         help: "Elements must have sufficient color contrast",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/color-contrast",
-        nodes: [{ html: '<button class="btn">Click me</button>' }],
+        nodes: [
+          {
+            html: '<button class="btn">Click me</button>',
+            failureSummary:
+              "Fix any of the following: Element has insufficient color contrast of 2.32:1 (foreground color: #ffffff, background color: #cccccc, font size: 14pt, font weight: normal). Expected contrast ratio of 4.5:1",
+          },
+        ],
       },
       {
         id: "button-name",
@@ -22,7 +28,13 @@ const Scanner = () => {
         description: "Ensures buttons have discernible text",
         help: "Buttons must have discernible text",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/button-name",
-        nodes: [{ html: "<button></button>" }],
+        nodes: [
+          {
+            html: "<button></button>",
+            failureSummary:
+              "Fix any of the following: Element does not have inner text that is visible to screen readers. aria-label attribute does not exist or is empty. aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty.",
+          },
+        ],
       },
       {
         id: "landmark-one-main",
@@ -30,7 +42,13 @@ const Scanner = () => {
         description: "Ensures the document has a main landmark",
         help: "Document should have one main landmark",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
-        nodes: [{ html: "<html lang='en'>" }],
+        nodes: [
+          {
+            html: "<html lang='en'>",
+            failureSummary:
+              "Fix all of the following: Document does not have a main landmark",
+          },
+        ],
       },
       {
         id: "page-has-heading-one",
@@ -39,7 +57,13 @@ const Scanner = () => {
         help: "Page should contain a level-one heading",
         helpUrl:
           "https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one",
-        nodes: [{ html: "<html lang='en'>" }],
+        nodes: [
+          {
+            html: "<html lang='en'>",
+            failureSummary:
+              "Fix all of the following: Page must have a level-one heading",
+          },
+        ],
       },
     ],
   };
