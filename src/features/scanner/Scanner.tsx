@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
-
+import ResultCard from "../../features/scanner/ResultCard";
 
 const Scanner = () => {
   // stores axe-core scan results. null until a scan has been run.
@@ -49,13 +49,19 @@ const Scanner = () => {
       - null      = include everything, no filtering (you will rarely change this from null)
       - 2         = indent with 2 spaces so a human can read it.
       */}
-      {results ? <pre>{JSON.stringify(results, null, 2)}</pre> : null}
+      {/* {results ? <pre>{JSON.stringify(results, null, 2)}</pre> : null} */}
       {/*                             ^^^^^    ^^^   ^ 
                                       data     filter  indentation */}
 
       {/* Error State: 
       FYI an error will still show in console, but this error msg is whats happening. */}
       {error ? <p>{error}</p> : null}
+
+
+      {results?.violations.map((violation) => (
+          <ResultCard key={violation.id} violation={violation}/>
+      ))}
+      
 
     </div>
 

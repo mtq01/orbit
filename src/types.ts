@@ -21,4 +21,3 @@ export interface AxeResults{
     passes: AxeResult[];
     incomplete: AxeResult[];
 }
-
