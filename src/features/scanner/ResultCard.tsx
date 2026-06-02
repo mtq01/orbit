@@ -2,6 +2,7 @@ import type { AxeResult } from "../../types";
 
 // passes AxeResult down to ResultCard below as a prop.
 interface ResultCardProps {
+    // displays a single violation
   violation: AxeResult;
 }
 

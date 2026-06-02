@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
-import ResultCard from "../../features/scanner/ResultCard";
+import ImpactGroups from "../scanner/ImpactGroups";
 
 const Scanner = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -128,17 +128,16 @@ const Scanner = () => {
       {error ? <p role="alert">{error}</p> : null}
 
       {/* [Output]
+      - .violations             = look at the violations array (from axe-core)
       - results?                = if results is not null, continue (? prevents a crash when results is still null before a scan has run)
-      - .violations             = look at the violations bucket
-      - .map((violation) =>     = loop thru all items in the array & identify each violation.
-      - <ResultsCard ...>       = for each violation, render a card. 
-      - key={violation.id}      = the unique ID of each violation (from axe-core).
-      - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
-      */}
+      - .filter(v => v.impact   = loop thru all obj in the array & identify each violation.
+      - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing operator)
+*/}
       <section aria-label="Violations">
-        {results?.violations.map((violation) => (
-          <ResultCard key={violation.id} violation={violation} />
-        ))}
+        <ImpactGroups impact="critical" violations={results?.violations.filter(v => v.impact === "critical") ?? []} />
+        <ImpactGroups impact="serious" violations={results?.violations.filter(v => v.impact === "serious") ?? []} />
+        <ImpactGroups impact="moderate" violations={results?.violations.filter(v => v.impact === "moderate") ?? []} />
+        <ImpactGroups impact="minor" violations={results?.violations.filter(v => v.impact === "minor") ?? []} />
       </section>
     </section>
   );
