@@ -1,6 +1,58 @@
+/* import tailwind */
 @import "tailwindcss";
 
+/* import fonts */
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("./assets/fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("./assets/fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("./assets/fonts/AtkinsonHyperlegible-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("./assets/fonts/AtkinsonHyperlegible-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "DM Serif Text";
+  src: url("./assets/fonts/DMSerifText-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM Serif Text";
+  src: url("./assets/fonts/DMSerifText-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+/* apply fonts */
+@layer base {
+  body {
+    font-family: "Atkinson Hyperlegible", sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "DM Serif Text", serif;
+  }
+}
 
 /* temporary */
 code {
@@ -12,4 +64,10 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: lightgrey;
+}
+
+button {
+  border: 1px solid black;
+  margin: 0 0.125rem;
+  cursor: pointer;
 }
