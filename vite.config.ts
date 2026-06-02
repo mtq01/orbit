@@ -2,9 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 // a node.js utility that builds reliable file paths regardless of operating system
 import { resolve } from "path";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
     chunkSizeWarningLimit: 10000,
     rollupOptions: {
