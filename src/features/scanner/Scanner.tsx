@@ -9,7 +9,7 @@ const Scanner = () => {
     violations: [
       {
         id: "color-contrast",
-        impact: "serious",
+        impact: "critical",
         description:
           "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
         help: "Elements must have sufficient color contrast",
@@ -18,11 +18,28 @@ const Scanner = () => {
       },
       {
         id: "button-name",
-        impact: "critical",
+        impact: "serious",
         description: "Ensures buttons have discernible text",
         help: "Buttons must have discernible text",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/button-name",
         nodes: [{ html: "<button></button>" }],
+      },
+      {
+        id: "landmark-one-main",
+        impact: "moderate",
+        description: "Ensures the document has a main landmark",
+        help: "Document should have one main landmark",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
+        nodes: [{ html: "<html lang='en'>" }],
+      },
+      {
+        id: "page-has-heading-one",
+        impact: "minor",
+        description: "Ensures the page has at least one level-one heading",
+        help: "Page should contain a level-one heading",
+        helpUrl:
+          "https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one",
+        nodes: [{ html: "<html lang='en'>" }],
       },
     ],
   };
