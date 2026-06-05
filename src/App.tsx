@@ -8,11 +8,11 @@ import type { Tab } from "./types";
 // Components
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import Scanner from "./features/scanner/Scanner";
+import ScannerTest from "./features/scanner/ScannerTest";
+// import Scanner from "./features/scanner/Scanner";
 import Colors from "./features/colors/Colors";
 import Tools from "./features/tools/Tools";
 import Checklist from "./features/checklist/Checklist";
-
 
 const App = () => {
   // Create a usestate for the selected Tab - typescript requires that we specify what the state takes
@@ -33,7 +33,7 @@ const App = () => {
 
       <main>
         {/* && = only render this component if the condition on the left is true */}
-        {activeTab === "scanner" && <Scanner />}
+        {activeTab === "scanner" && <ScannerTest />}
         {activeTab === "tools" && <Tools />}
         {activeTab === "colors" && <Colors />}
         {activeTab === "checklist" && <Checklist />}
