@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
-import ResultCard from "../../features/scanner/ResultCard";
+import ImpactGroups from "../scanner/ImpactGroups";
 
 const Scanner = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -9,20 +9,61 @@ const Scanner = () => {
     violations: [
       {
         id: "color-contrast",
-        impact: "serious",
+        impact: "critical",
         description:
           "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
         help: "Elements must have sufficient color contrast",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/color-contrast",
-        nodes: [{ html: '<button class="btn">Click me</button>' }],
+        nodes: [
+          {
+            html: '<button class="btn">Click me</button>',
+            failureSummary:
+              "Fix any of the following: Element has insufficient color contrast of 2.32:1 (foreground color: #ffffff, background color: #cccccc, font size: 14pt, font weight: normal). Expected contrast ratio of 4.5:1",
+          },
+        ],
       },
       {
         id: "button-name",
-        impact: "critical",
+        impact: "serious",
         description: "Ensures buttons have discernible text",
         help: "Buttons must have discernible text",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/button-name",
-        nodes: [{ html: "<button></button>" }],
+        nodes: [
+          {
+            html: "<button></button>",
+            failureSummary:
+              "Fix any of the following: Element does not have inner text that is visible to screen readers. aria-label attribute does not exist or is empty. aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty.",
+          },
+        ],
+      },
+      {
+        id: "landmark-one-main",
+        impact: "moderate",
+        description: "Ensures the document has a main landmark",
+        help: "Document should have one main landmark",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
+        nodes: [
+          {
+            html: "<html lang='en'>",
+            failureSummary:
+              "Fix all of the following: Document does not have a main landmark",
+          },
+        ],
+      },
+      {
+        id: "page-has-heading-one",
+        impact: "minor",
+        description: "Ensures the page has at least one level-one heading",
+        help: "Page should contain a level-one heading",
+        helpUrl:
+          "https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one",
+        nodes: [
+          {
+            html: "<html lang='en'>",
+            failureSummary:
+              "Fix all of the following: Page must have a level-one heading",
+          },
+        ],
       },
     ],
   };
@@ -87,17 +128,16 @@ const Scanner = () => {
       {error ? <p role="alert">{error}</p> : null}
 
       {/* [Output]
+      - .violations             = look at the violations array (from axe-core)
       - results?                = if results is not null, continue (? prevents a crash when results is still null before a scan has run)
-      - .violations             = look at the violations bucket
-      - .map((violation) =>     = loop thru all items in the array & identify each violation.
-      - <ResultsCard ...>       = for each violation, render a card. 
-      - key={violation.id}      = the unique ID of each violation (from axe-core).
-      - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
-      */}
+      - .filter(v => v.impact   = loop thru all obj in the array & identify each violation.
+      - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing)
+*/}
       <section aria-label="Violations">
-        {results?.violations.map((violation) => (
-          <ResultCard key={violation.id} violation={violation} />
-        ))}
+        <ImpactGroups impact="critical" violations={results?.violations.filter(v => v.impact === "critical") ?? []} />
+        <ImpactGroups impact="serious" violations={results?.violations.filter(v => v.impact === "serious") ?? []} />
+        <ImpactGroups impact="moderate" violations={results?.violations.filter(v => v.impact === "moderate") ?? []} />
+        <ImpactGroups impact="minor" violations={results?.violations.filter(v => v.impact === "minor") ?? []} />
       </section>
     </section>
   );
