@@ -6,6 +6,12 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // resolve, alias, is for shadUI
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "./src"),
+    },
+  },
   build: {
     chunkSizeWarningLimit: 10000,
     rollupOptions: {
