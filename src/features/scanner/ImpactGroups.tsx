@@ -2,30 +2,41 @@ import type { AxeResult } from "../../types";
 import ResultCard from "../scanner/ResultCard";
 
 interface ImpactGroupProps {
-  // 4 types of violations
-  impact: "critical" | "serious" | "moderate" | "minor";
-  // displays a whole group of violations (needs to be array)
-  violations: AxeResult[];
+  // bucket labels: "violations, passes, or incomplete"
+  label: string;
+  // all results for each bucket as an array
+  results: AxeResult[];
 }
 
-const ImpactGroups = ({ impact, violations }: ImpactGroupProps) => {
+// da 4 impact lvls axe-core uses. 'as const' locks them as literal types.
+const impactGroupLevels = ["critical", "serious", "moderate", "minor"] as const;
+
+const ImpactGroups = ({ label, results }: ImpactGroupProps) => {
   return (
+    // outer accordion (shows bucket label & total count)
     <details>
-      {/* shows impact lvl and number of violations found */}
       <summary>
-        {impact} {violations.length}
+        {label} ({results.length})
       </summary>
 
-      {/* [Output]
-      - .violations             = look at the violations array (from axe-core)
-      - .map((violation) =>     = loop thru all obj in the array & identify each violation.
-      - <ResultsCard ...>       = for each violation, render a card. 
-      - key={violation.id}      = the unique ID of each violation (from axe-core).
-      - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
-      */}
-      {violations.map((violation) => (
-        <ResultCard key={violation.id} violation={violation} />
-      ))}
+      {/* loops over each impact lvl and creates an inner accordion for each */}
+      {impactGroupLevels.map((level) => {
+        // filter the full bucket down to only results matching the impact lvl
+        const filtered = results.filter((r) => r.impact === level);
+        return (
+          // inner accordion: shows the impact lvl and count of results at that lvl
+          <details key={level}>
+            <summary>
+              {level} ({filtered.length})
+            </summary>
+
+            {/* renders a ResultCard based on the filtered results, using its key and displaying the result */}
+            {filtered.map((result) => (
+              <ResultCard key={result.id} result={result} />
+            ))}
+          </details>
+        );
+      })}
     </details>
   );
 };
