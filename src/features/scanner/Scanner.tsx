@@ -93,6 +93,46 @@ const Scanner = () => {
           },
         ],
       },
+      {
+        id: "image-alt",
+        impact: "critical",
+        description:
+          "Ensures img elements have alternate text or a role of none or presentation",
+        help: "Images must have alternate text",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/image-alt",
+        nodes: [
+          {
+            html: '<img src="logo.png" alt="Company logo">',
+            failureSummary: "",
+          },
+        ],
+      },
+      {
+        id: "label",
+        impact: "moderate",
+        description: "Ensures every form element has a label",
+        help: "Form elements must have labels",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/label",
+        nodes: [
+          {
+            html: '<input type="text" id="name" aria-label="Full name">',
+            failureSummary: "",
+          },
+        ],
+      },
+      {
+        id: "list",
+        impact: "minor",
+        description: "Ensures that lists are structured correctly",
+        help: "list element must have direct children that are the appropriate list item elements",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/list",
+        nodes: [
+          {
+            html: "<ul><li>Item one</li><li>Item two</li></ul>",
+            failureSummary: "",
+          },
+        ],
+      },
     ],
     incomplete: [
       {
@@ -107,6 +147,49 @@ const Scanner = () => {
             html: "<p class='text-gray-400'>Some text</p>",
             failureSummary:
               "axe couldn't determine the contrast ratio — background color could not be determined due to a background image or gradient",
+          },
+        ],
+      },
+      {
+        id: "label",
+        impact: "critical",
+        description: "Ensures every form element has a label",
+        help: "Form elements must have labels",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/label",
+        nodes: [
+          {
+            html: '<input type="text">',
+            failureSummary:
+              "axe couldn't determine if this input has an associated label — it may be labeled via JavaScript or a custom ARIA pattern",
+          },
+        ],
+      },
+      {
+        id: "landmark-one-main",
+        impact: "moderate",
+        description: "Ensures the document has a main landmark",
+        help: "Document should have one main landmark",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
+        nodes: [
+          {
+            html: "<div role='main'>",
+            failureSummary:
+              "axe couldn't determine if this element is the only main landmark on the page",
+          },
+        ],
+      },
+      {
+        id: "image-alt",
+        impact: "minor",
+        description:
+          "Ensures img elements have alternate text or a role of none or presentation",
+        help: "Images must have alternate text",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/image-alt",
+        nodes: [
+          {
+            html: '<img src="decorative.png">',
+            failureSummary:
+              "axe couldn't determine if this image is decorative or informative",
           },
         ],
       },
