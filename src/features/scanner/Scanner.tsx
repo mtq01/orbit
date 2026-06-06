@@ -272,40 +272,45 @@ const Scanner = () => {
 
       {/* impact levels: map thru each array of 'violations, passes, or incomplete', and show results. */}
       {/* violations */}
-      <section aria-label="Violations">
-        {impactGroupLevels.map((level) => (
-          <ImpactGroups
-            key={level}
-            impact={level}
-            results={
-              results?.violations.filter((v) => v.impact === level) ?? []
-            }
-          />
-        ))}
-      </section>
+      <section aria-label="Scan Results">
+        <details>
+          <summary>Violations ({results?.violations.length ?? 0})</summary>
+          {impactGroupLevels.map((level) => (
+            <ImpactGroups
+              key={level}
+              impact={level}
+              results={
+                results?.violations.filter((v) => v.impact === level) ?? []
+              }
+            />
+          ))}
+        </details>
 
-      {/* passes */}
-      <section aria-label="Passes">
-        {impactGroupLevels.map((level) => (
-          <ImpactGroups
-            key={level}
-            impact={level}
-            results={results?.passes.filter((p) => p.impact === level) ?? []}
-          />
-        ))}
-      </section>
+        {/* passes */}
+        <details>
+          <summary>Passes ({results?.passes.length ?? 0})</summary>
+          {impactGroupLevels.map((level) => (
+            <ImpactGroups
+              key={level}
+              impact={level}
+              results={results?.passes.filter((p) => p.impact === level) ?? []}
+            />
+          ))}
+        </details>
 
-      {/* incomplete */}
-      <section aria-label="Incomplete">
-        {impactGroupLevels.map((level) => (
-          <ImpactGroups
-            key={level}
-            impact={level}
-            results={
-              results?.incomplete.filter((i) => i.impact === level) ?? []
-            }
-          />
-        ))}
+        {/* incomplete */}
+        <details>
+          <summary>Incomplete ({results?.incomplete.length ?? 0})</summary>
+          {impactGroupLevels.map((level) => (
+            <ImpactGroups
+              key={level}
+              impact={level}
+              results={
+                results?.incomplete.filter((i) => i.impact === level) ?? []
+              }
+            />
+          ))}
+        </details>
       </section>
     </section>
   );

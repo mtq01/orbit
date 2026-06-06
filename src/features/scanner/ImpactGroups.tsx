@@ -18,10 +18,10 @@ const ImpactGroups = ({ impact, results }: ImpactGroupProps) => {
 
       {/* [Output]
       - .results             = look at the results array (from axe-core)
-      - .map((violation) =>     = loop thru all obj in the array & identify each violation.
-      - <ResultsCard ...>       = for each violation, render a card. 
-      - key={violation.id}      = the unique ID of each violation (from axe-core).
-      - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
+      - .map((result) =>     = loop thru all obj in the array & identify each result.
+      - <ResultsCard ...>    = for each result, render a card. 
+      - key={result.id}      = the unique ID of each result (from axe-core).
+      - result={result}      = displays the full obj based on the props in ResultCard.tsx  
       */}
       {results.map((result) => (
         <ResultCard key={result.id} result={result} />
