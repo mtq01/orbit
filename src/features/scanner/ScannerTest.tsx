@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { AxeResults, ScanResponse } from "../../types";
 import { SCAN_MESSAGE } from "../../types";
-import ResultCard from "../../features/scanner/ResultCard";
+import ImpactGroups from "../scanner/ImpactGroups";
 
 const Scanner = () => {
   // Uses a union type (<AxeResults | null>) to allow the value to be either a AxeResults OR a null
@@ -86,18 +86,12 @@ const Scanner = () => {
       FYI an error will still show in console, but this error msg is whats happening. */}
       {error ? <p role="alert">{error}</p> : null}
 
-      {/* [Output]
-      - results?                = if results is not null, continue (? prevents a crash when results is still null before a scan has run)
-      - .violations             = look at the violations bucket
-      - .map((violation) =>     = loop thru all items in the array & identify each violation.
-      - <ResultsCard ...>       = for each violation, render a card. 
-      - key={violation.id}      = the unique ID of each violation (from axe-core).
-      - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
-      */}
-      <section aria-label="Violations">
-        {results?.violations.map((violation) => (
-          <ResultCard key={violation.id} violation={violation} />
-        ))}
+
+      {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
+      <section aria-label="Scan Results">
+        <ImpactGroups label="Violations" results={results?.violations ?? []} />
+        <ImpactGroups label="Passes" results={results?.passes ?? []} />
+        <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
       </section>
     </section>
   );
