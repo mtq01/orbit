@@ -66,6 +66,51 @@ const Scanner = () => {
         ],
       },
     ],
+    passes: [
+      {
+        id: "html-has-lang",
+        impact: "serious",
+        description: "Ensures every HTML document has a lang attribute",
+        help: "html element must have a lang attribute",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/html-has-lang",
+        nodes: [
+          {
+            html: "<html lang='en'>",
+            failureSummary: "",
+          },
+        ],
+      },
+      {
+        id: "document-title",
+        impact: "serious",
+        description: "Ensures each HTML document contains a non-empty title",
+        help: "Documents must have a title element",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/document-title",
+        nodes: [
+          {
+            html: "<title>My Page</title>",
+            failureSummary: "",
+          },
+        ],
+      },
+    ],
+    incomplete: [
+      {
+        id: "color-contrast",
+        impact: "serious",
+        description:
+          "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
+        help: "Elements must have sufficient color contrast",
+        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/color-contrast",
+        nodes: [
+          {
+            html: "<p class='text-gray-400'>Some text</p>",
+            failureSummary:
+              "axe couldn't determine the contrast ratio — background color could not be determined due to a background image or gradient",
+          },
+        ],
+      },
+    ],
   };
   /* COMMENTED OUT DURING UI DEVELOPMENT, DO NOT DELETE
   // stores axe-core scan results. null until a scan has been run.
@@ -134,10 +179,30 @@ const Scanner = () => {
       - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing)
 */}
       <section aria-label="Violations">
-        <ImpactGroups impact="critical" violations={results?.violations.filter(v => v.impact === "critical") ?? []} />
-        <ImpactGroups impact="serious" violations={results?.violations.filter(v => v.impact === "serious") ?? []} />
-        <ImpactGroups impact="moderate" violations={results?.violations.filter(v => v.impact === "moderate") ?? []} />
-        <ImpactGroups impact="minor" violations={results?.violations.filter(v => v.impact === "minor") ?? []} />
+        <ImpactGroups
+          impact="critical"
+          violations={
+            results?.violations.filter((v) => v.impact === "critical") ?? []
+          }
+        />
+        <ImpactGroups
+          impact="serious"
+          violations={
+            results?.violations.filter((v) => v.impact === "serious") ?? []
+          }
+        />
+        <ImpactGroups
+          impact="moderate"
+          violations={
+            results?.violations.filter((v) => v.impact === "moderate") ?? []
+          }
+        />
+        <ImpactGroups
+          impact="minor"
+          violations={
+            results?.violations.filter((v) => v.impact === "minor") ?? []
+          }
+        />
       </section>
     </section>
   );
