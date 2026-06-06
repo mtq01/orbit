@@ -123,6 +123,14 @@ const Scanner = () => {
   );
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+  // as const tells TS these are the exact 4 literal values, not just any string.
+  const impactGroupLevels = [
+    "critical",
+    "serious",
+    "moderate",
+    "minor",
+  ] as const;
+
   // error state
   const [error, _setError] = useState<string | null>(null);
 
@@ -178,31 +186,43 @@ const Scanner = () => {
       - .filter(v => v.impact   = loop thru all obj in the array & identify each violation.
       - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing)
 */}
+
+      {/* impact levels: map thru each array of 'violations, passes, or incomplete', and show results. */}
+      {/* violations */}
       <section aria-label="Violations">
-        <ImpactGroups
-          impact="critical"
-          violations={
-            results?.violations.filter((v) => v.impact === "critical") ?? []
-          }
-        />
-        <ImpactGroups
-          impact="serious"
-          violations={
-            results?.violations.filter((v) => v.impact === "serious") ?? []
-          }
-        />
-        <ImpactGroups
-          impact="moderate"
-          violations={
-            results?.violations.filter((v) => v.impact === "moderate") ?? []
-          }
-        />
-        <ImpactGroups
-          impact="minor"
-          violations={
-            results?.violations.filter((v) => v.impact === "minor") ?? []
-          }
-        />
+        {impactGroupLevels.map((level) => (
+          <ImpactGroups
+            key={level}
+            impact={level}
+            results={
+              results?.violations.filter((v) => v.impact === level) ?? []
+            }
+          />
+        ))}
+      </section>
+
+      {/* passes */}
+      <section aria-label="Passes">
+        {impactGroupLevels.map((level) => (
+          <ImpactGroups
+            key={level}
+            impact={level}
+            results={results?.passes.filter((p) => p.impact === level) ?? []}
+          />
+        ))}
+      </section>
+
+      {/* incomplete */}
+      <section aria-label="Incomplete">
+        {impactGroupLevels.map((level) => (
+          <ImpactGroups
+            key={level}
+            impact={level}
+            results={
+              results?.incomplete.filter((i) => i.impact === level) ?? []
+            }
+          />
+        ))}
       </section>
     </section>
   );

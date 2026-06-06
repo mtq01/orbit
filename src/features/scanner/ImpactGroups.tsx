@@ -2,29 +2,29 @@ import type { AxeResult } from "../../types";
 import ResultCard from "../scanner/ResultCard";
 
 interface ImpactGroupProps {
-  // 4 types of violations
+  // 4 types of results
   impact: "critical" | "serious" | "moderate" | "minor";
-  // displays a whole group of violations (needs to be array)
-  violations: AxeResult[];
+  // displays a whole group of results (needs to be array)
+  results: AxeResult[];
 }
 
-const ImpactGroups = ({ impact, violations }: ImpactGroupProps) => {
+const ImpactGroups = ({ impact, results }: ImpactGroupProps) => {
   return (
     <details>
-      {/* shows impact lvl and number of violations found */}
+      {/* shows impact lvl and number of results found */}
       <summary>
-        {impact} {violations.length}
+        {impact} {results.length}
       </summary>
 
       {/* [Output]
-      - .violations             = look at the violations array (from axe-core)
+      - .results             = look at the results array (from axe-core)
       - .map((violation) =>     = loop thru all obj in the array & identify each violation.
       - <ResultsCard ...>       = for each violation, render a card. 
       - key={violation.id}      = the unique ID of each violation (from axe-core).
       - violation={violation}   = displays the full obj based on the props in ResultCard.tsx  
       */}
-      {violations.map((violation) => (
-        <ResultCard key={violation.id} violation={violation} />
+      {results.map((result) => (
+        <ResultCard key={result.id} result={result} />
       ))}
     </details>
   );
