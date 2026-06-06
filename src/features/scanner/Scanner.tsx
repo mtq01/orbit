@@ -206,14 +206,6 @@ const Scanner = () => {
   );
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  // as const tells TS these are the exact 4 literal values, not just any string.
-  const impactGroupLevels = [
-    "critical",
-    "serious",
-    "moderate",
-    "minor",
-  ] as const;
-
   // error state
   const [error, _setError] = useState<string | null>(null);
 
@@ -259,58 +251,16 @@ const Scanner = () => {
       {/* <button onClick={handleScan}>Run Scan</button> */}
       <button>Run Scan (Temp)</button>
 
-      {/* Error State: 
-      FYI an error will still show in console, but this error msg is whats happening. */}
+      {/* Error State: an error will still show in console, but this error msg is whats happening. */}
       {error ? <p role="alert">{error}</p> : null}
 
-      {/* [Output]
-      - .violations             = look at the violations array (from axe-core)
-      - results?                = if results is not null, continue (? prevents a crash when results is still null before a scan has run)
-      - .filter(v => v.impact   = loop thru all obj in the array & identify each violation.
-      - ?? []                   = filter the violations, but if 'results' is null and the filter returns 'undefined', use an empty array instead (nullish coalescing)
-*/}
 
-      {/* impact levels: map thru each array of 'violations, passes, or incomplete', and show results. */}
-      {/* violations */}
+
+      {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
       <section aria-label="Scan Results">
-        <details>
-          <summary>Violations ({results?.violations.length ?? 0})</summary>
-          {impactGroupLevels.map((level) => (
-            <ImpactGroups
-              key={level}
-              impact={level}
-              results={
-                results?.violations.filter((v) => v.impact === level) ?? []
-              }
-            />
-          ))}
-        </details>
-
-        {/* passes */}
-        <details>
-          <summary>Passes ({results?.passes.length ?? 0})</summary>
-          {impactGroupLevels.map((level) => (
-            <ImpactGroups
-              key={level}
-              impact={level}
-              results={results?.passes.filter((p) => p.impact === level) ?? []}
-            />
-          ))}
-        </details>
-
-        {/* incomplete */}
-        <details>
-          <summary>Incomplete ({results?.incomplete.length ?? 0})</summary>
-          {impactGroupLevels.map((level) => (
-            <ImpactGroups
-              key={level}
-              impact={level}
-              results={
-                results?.incomplete.filter((i) => i.impact === level) ?? []
-              }
-            />
-          ))}
-        </details>
+        <ImpactGroups label="Violations" results={results?.violations ?? []} />
+        <ImpactGroups label="Passes" results={results?.passes ?? []} />
+        <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
       </section>
     </section>
   );
