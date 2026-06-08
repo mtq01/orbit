@@ -108,9 +108,9 @@ const Scanner = () => {
 
           {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
           <section aria-label="Scan Results">
-            <ImpactGroups label="Violations" results={results?.violations ?? []} />
-            <ImpactGroups label="Passes" results={results?.passes ?? []} />
-            <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
+            <ImpactGroups label="Violations" results={results?.violations} />
+            <ImpactGroups label="Passes" results={results?.passes} />
+            <ImpactGroups label="Incomplete" results={results?.incomplete} />
           </section>
         </>
       )}
