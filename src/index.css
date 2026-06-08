@@ -1,75 +1,51 @@
-/* import tailwind */
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource/atkinson-hyperlegible";
+@import "@fontsource/atkinson-hyperlegible/700.css";
+@import "@fontsource/fira-code";
 
-/* import fonts */
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  src: url("./assets/fonts/AtkinsonHyperlegible-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
+/* @theme auto-generates utility classes
+    --color-orbit-blue → bg-orbit-blue, text-orbit-blue */
+
+@theme {
+  --color-orbit-blue: #060d20;
+  --color-orbit-white: #fcf8f8;
+  --color-orbit-muted: #505461;
+  --color-critical: #bd0000;
+  --color-serious: #e48614;
+  --color-moderate: #5842e4;
+  --font-code: "Fira Code", monospace;
+
+  --font-body: "Atkinson Hyperlegible Variable", sans-serif;
+  --font-heading: "DM Sans Variable", sans-serif;
 }
 
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  src: url("./assets/fonts/AtkinsonHyperlegible-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  src: url("./assets/fonts/AtkinsonHyperlegible-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Atkinson Hyperlegible";
-  src: url("./assets/fonts/AtkinsonHyperlegible-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "DM Serif Text";
-  src: url("./assets/fonts/DMSerifText-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "DM Serif Text";
-  src: url("./assets/fonts/DMSerifText-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-}
-/* apply fonts */
+/* Layer base Just means global elemt defaults in tailwind */
 @layer base {
+  #root {
+    font-size: 16px;
+  }
+
   body {
-    font-family: "Atkinson Hyperlegible", sans-serif;
+    font-family: var(--font-body);
+    background-color: var(--color-orbit-white);
+    color: var(--color-orbit-blue);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "DM Serif Text", serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
   }
-}
-
-/* temporary */
-code {
-  font-family: 'Roboto', sans-serif;
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: lightgrey;
-}
-
-button {
-  border: 1px solid black;
-  margin: 0 0.125rem;
-  cursor: pointer;
+  code {
+    font-family: var(--font-code);
+  }
+  /* temporary just so we can see where they are  */
+  button {
+    border: black solid 1px;
+  }
 }
