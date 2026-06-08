@@ -18,8 +18,8 @@ export interface AxeResult {
 
 export interface AxeResults {
   violations: AxeResult[];
-  passes: AxeResult[];
-  incomplete: AxeResult[];
+  // passes: AxeResult[];
+  // incomplete: AxeResult[];
 }
 export type ScanMessage = {
   type: "RUN_SCAN";

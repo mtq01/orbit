@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { AxeResults, ScanResponse } from "../../types";
 import { SCAN_MESSAGE } from "../../types";
-import ImpactGroups from "../scanner/ImpactGroups";
+import ResultCard from "../scanner/ResultCard";
 
 const Scanner = () => {
   // Uses a union type (<AxeResults | null>) to allow the value to be either a AxeResults OR a null
@@ -106,11 +106,11 @@ const Scanner = () => {
             {isLoading ? "Scanning..." : "Re-Scan"}
           </button>
 
-          {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
+          {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
-            <ImpactGroups label="Violations" results={results?.violations ?? []} />
-            <ImpactGroups label="Passes" results={results?.passes ?? []} />
-            <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
+            {results.violations.map((result) => (
+              <ResultCard key={result.id} result={result} />
+            ))}
           </section>
         </>
       )}
