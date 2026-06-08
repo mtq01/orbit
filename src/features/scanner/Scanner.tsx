@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
-import ImpactGroups from "../scanner/ImpactGroups";
+import ResultCard from "../scanner/ResultCard";
 
 const Scanner = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -19,6 +19,10 @@ const Scanner = () => {
             html: '<button class="btn">Click me</button>',
             failureSummary:
               "Fix any of the following: Element has insufficient color contrast of 2.32:1 (foreground color: #ffffff, background color: #cccccc, font size: 14pt, font weight: normal). Expected contrast ratio of 4.5:1",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -33,6 +37,10 @@ const Scanner = () => {
             html: "<button></button>",
             failureSummary:
               "Fix any of the following: Element does not have inner text that is visible to screen readers. aria-label attribute does not exist or is empty. aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty.",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -47,6 +55,10 @@ const Scanner = () => {
             html: "<html lang='en'>",
             failureSummary:
               "Fix all of the following: Document does not have a main landmark",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -62,6 +74,10 @@ const Scanner = () => {
             html: "<html lang='en'>",
             failureSummary:
               "Fix all of the following: Page must have a level-one heading",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -73,6 +89,10 @@ const Scanner = () => {
         description: "Ensures every HTML document has a lang attribute",
         help: "html element must have a lang attribute",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/html-has-lang",
+        target: ["button"],
+        any: [],
+        all: [],
+        none: [],
         nodes: [
           {
             html: "<html lang='en'>",
@@ -90,6 +110,10 @@ const Scanner = () => {
           {
             html: "<title>My Page</title>",
             failureSummary: "",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -104,6 +128,10 @@ const Scanner = () => {
           {
             html: '<img src="logo.png" alt="Company logo">',
             failureSummary: "",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -117,6 +145,10 @@ const Scanner = () => {
           {
             html: '<input type="text" id="name" aria-label="Full name">',
             failureSummary: "",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -130,6 +162,10 @@ const Scanner = () => {
           {
             html: "<ul><li>Item one</li><li>Item two</li></ul>",
             failureSummary: "",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -147,6 +183,10 @@ const Scanner = () => {
             html: "<p class='text-gray-400'>Some text</p>",
             failureSummary:
               "axe couldn't determine the contrast ratio — background color could not be determined due to a background image or gradient",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -161,6 +201,10 @@ const Scanner = () => {
             html: '<input type="text">',
             failureSummary:
               "axe couldn't determine if this input has an associated label — it may be labeled via JavaScript or a custom ARIA pattern",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -175,6 +219,10 @@ const Scanner = () => {
             html: "<div role='main'>",
             failureSummary:
               "axe couldn't determine if this element is the only main landmark on the page",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -190,6 +238,10 @@ const Scanner = () => {
             html: '<img src="decorative.png">',
             failureSummary:
               "axe couldn't determine if this image is decorative or informative",
+            target: ["button"],
+            any: [],
+            all: [],
+            none: [],
           },
         ],
       },
@@ -248,8 +300,7 @@ const Scanner = () => {
       {/* Error State: an error will still show in console, but this error msg is whats happening. */}
       {error ? <p role="alert">{error}</p> : null}
 
-
-    {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
+      {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
       {!results ? (
         <>
           <p>🪐</p>
@@ -259,30 +310,36 @@ const Scanner = () => {
           {/* <button onClick={handleScan}>Run Scan</button> */}
 
           {/* DEV ONLY - rmv b4 production */}
-          <button onClick={() => setResults(results ? null : (mockResults as AxeResults))}>
+          <button
+            onClick={() =>
+              setResults(results ? null : (mockResults as AxeResults))
+            }
+          >
             Run Scan (Toggle State - Dev Only)
           </button>
         </>
       ) : (
         <>
-        <h2>Scan Results</h2>
-        <p>24 elements to review</p>
-        <div>
-         <p> All | Critical | Serious | Moderate</p>
-        </div>
-        {/* handleScan button commented out during UI build */}
-        {/* <button onClick={handleScan}>Run Scan</button> */}
+          <h2>Scan Results</h2>
+          <p>24 elements to review</p>
+          <div>
+            <p> All | Critical | Serious | Moderate</p>
+          </div>
+          {/* handleScan button commented out during UI build */}
+          {/* <button onClick={handleScan}>Run Scan</button> */}
 
-        {/* DEV ONLY - rmv b4 production */}
-        <button onClick={() => setResults(mockResults as AxeResults)}>⏎ Re-Scan (Dev)</button>
-        
-          {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
+          {/* DEV ONLY - rmv b4 production */}
+          <button onClick={() => setResults(mockResults as AxeResults)}>
+            ⏎ Re-Scan (Dev)
+          </button>
+
+          {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
-            <ImpactGroups label="Violations" results={results?.violations ?? []} />
-            <ImpactGroups label="Passes" results={results?.passes ?? []} />
-            <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
+            {results.violations.map((result) => (
+              <ResultCard key={result.id} result={result} />
+            ))}
           </section>
-          </>
+        </>
       )}
     </section>
   );

@@ -1,37 +1,37 @@
 import type { AxeResult } from "../../types";
+import { ChevronsDown, ChevronsUp } from "lucide-react";
+import { useState } from "react";
 
 // passes AxeResult down to ResultCard below as a prop.
 interface ResultCardProps {
-    // displays a single result
+  // displays a single result
   result: AxeResult;
 }
 
-// axe-core has 4 impact levels (keys). this obj contains their styles (tailwind)
+// axe-core has 4 impact levels (keys). this obj contains their styles (tailwind)... might not need this anymore, not sure yet
 const impactStyles = {
-  critical: { band: "bg-red-100", pill: "bg-red-200 text-black-800" },
-  serious: { band: "bg-orange-100", pill: "bg-orange-200 text-black-800" },
-  moderate: { band: "bg-yellow-100", pill: "bg-yellow-200 text-black-800" },
-  minor: { band: "bg-blue-100", pill: "bg-blue-200 text-black-800" },
+  critical:   { pill: "bg-red-200 text-black-800" },
+  serious:    { pill: "bg-orange-200 text-black-800" },
+  moderate:   { pill: "bg-yellow-200 text-black-800" },
+  minor:      { pill: "bg-blue-200 text-black-800" },
 };
 
 // accepts the result from ResultCardProps
 const ResultCard = ({ result }: ResultCardProps) => {
   const styles = impactStyles[result.impact];
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <article className="border border-gray-200 rounded-lg overflow-hidden">
-      <header
-        className={`${styles.band} px-4 py-3 flex items-center justify-between`}
-      >
-        {/* rule name (key) */}
-        <h3 className="text-lg">{result.id}</h3>
-        {/* impactStyles is compared the the result.impact and outputs the proper style on the displayed result.*/}
-        <span
-          className={`${styles.pill} text-xs font-bold px-2 py-1 rounded-full capitalize`}
-        >
-          {result.impact}
+    <details onToggle={(event) => setIsOpen((event.target as HTMLDetailsElement).open)} className="border border-gray-200 rounded-lg overflow-hidden m-3">
+      <summary className="px-4 py-3 cursor-pointer list-none">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg">{result.id}</h3>
+            { isOpen ? <ChevronsUp size={16} /> : <ChevronsDown size={16} />}
+        </div>
+        <span className={`${styles.pill} text-xs font-bold px-2 py-1 capitalize`}>
+          {result.impact} - {result.nodes.length} element
         </span>
-      </header>
+      </summary>
 
       <div className="px-4 py-3 flex flex-col gap-3">
         {/* description of result */}
@@ -57,7 +57,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
           Learn <em>'{result.id}'</em> best practices.
         </a>
       </div>
-    </article>
+    </details>
   );
 };
 
