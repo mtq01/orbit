@@ -201,9 +201,7 @@ const Scanner = () => {
   */
 
   // TEMPORARY FOR UI DEVELOPMENT
-  const [results, _setResults] = useState<AxeResults | null>(
-    mockResults as AxeResults,
-  );
+  const [results, setResults] = useState<AxeResults | null>(null);
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   // error state
@@ -247,21 +245,45 @@ const Scanner = () => {
 
   return (
     <section aria-label="Accessibility Scanner">
-      {/* handleScan button commented out during UI build */}
-      {/* <button onClick={handleScan}>Run Scan</button> */}
-      <button>Run Scan (Temp)</button>
-
       {/* Error State: an error will still show in console, but this error msg is whats happening. */}
       {error ? <p role="alert">{error}</p> : null}
 
 
+    {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
+      {!results ? (
+        <>
+          <p>🪐</p>
+          <h2>Check this page for accessibility</h2>
 
-      {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
-      <section aria-label="Scan Results">
-        <ImpactGroups label="Violations" results={results?.violations ?? []} />
-        <ImpactGroups label="Passes" results={results?.passes ?? []} />
-        <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
-      </section>
+          {/* handleScan button commented out during UI build */}
+          {/* <button onClick={handleScan}>Run Scan</button> */}
+
+          {/* DEV ONLY - rmv b4 production */}
+          <button onClick={() => setResults(results ? null : (mockResults as AxeResults))}>
+            Run Scan (Toggle State - Dev Only)
+          </button>
+        </>
+      ) : (
+        <>
+        <h2>Scan Results</h2>
+        <p>24 elements to review</p>
+        <div>
+         <p> All | Critical | Serious | Moderate</p>
+        </div>
+        {/* handleScan button commented out during UI build */}
+        {/* <button onClick={handleScan}>Run Scan</button> */}
+
+        {/* DEV ONLY - rmv b4 production */}
+        <button onClick={() => setResults(mockResults as AxeResults)}>⏎ Re-Scan (Dev)</button>
+        
+          {/* Scan Results: grouped into 3 buckets, each is broken down by impact level */}
+          <section aria-label="Scan Results">
+            <ImpactGroups label="Violations" results={results?.violations ?? []} />
+            <ImpactGroups label="Passes" results={results?.passes ?? []} />
+            <ImpactGroups label="Incomplete" results={results?.incomplete ?? []} />
+          </section>
+          </>
+      )}
     </section>
   );
 };
