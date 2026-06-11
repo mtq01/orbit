@@ -1,6 +1,11 @@
 import type { AxeResult } from "../../types";
-import { ChevronsDown, ChevronsUp, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState } from "react";
+
+// icons
+import arrowLeft from "../../assets/icons/arrow-left.svg";
+import arrowRight from "../../assets/icons/arrow-right.svg";
+import chevronUp from "../../assets/icons/chevrons-up.svg";
+import chevronDown from "../../assets/icons/chevrons-down.svg";
 
 // passes AxeResult down to ResultCard below as a prop.
 interface ResultCardProps {
@@ -29,12 +34,30 @@ const ResultCard = ({ result }: ResultCardProps) => {
   return (
     <details
       onToggle={(event) => setIsOpen((event.target as HTMLDetailsElement).open)}
-      className="border border-gray-200 rounded-lg overflow-hidden m-3"
+      className="border border-gray-200 rounded-lg m-3"
     >
-      <summary className="px-4 py-3 cursor-pointer list-none border-b border-gray-200">
+      {/* summary is the built-in label for the details element. It does not need a heading */}
+      <summary className="px-4 py-3 border-b border-gray-200 cursor-pointer list-none hover:bg-gray-50 focus-visible:outline-orbit-blue">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold">{result.id}</h2>
-          {isOpen ? <ChevronsUp size={16} /> : <ChevronsDown size={16} />}
+          {/* use span here bcuz no header is needed & the result.id is already descriptive. */}
+          <span className="text-lg font-bold">{result.id}</span>
+          {isOpen ? (
+            <img
+              src={chevronUp}
+              // alt is left blank bcuz the buttons aria-label describes the action
+              alt=""
+              aria-hidden="true"
+              className="w-5 h-5"
+            />
+          ) : (
+            <img
+              src={chevronDown}
+              // alt is left blank bcuz the buttons aria-label describes the action
+              alt=""
+              aria-hidden="true"
+              className="w-5 h-5"
+            />
+          )}
         </div>
         <span
           className={`${styles.pill} rounded-md text-sm font-bold px-2 py-1 capitalize`}
@@ -47,7 +70,12 @@ const ResultCard = ({ result }: ResultCardProps) => {
         </span>
       </summary>
 
-      <section className="px-4 py-3 flex flex-col gap-3">
+      {/* sections need an aria label, this one is dynamic based on the result.id */}
+      <section
+        // ex announcement: 'color contrast details'
+        aria-label={`${result.id} details`}
+        className="px-4 py-3 flex flex-col gap-3"
+      >
         {/* description of result */}
         <p>
           {result.nodes[currentNode].any[0] && (
@@ -58,15 +86,15 @@ const ResultCard = ({ result }: ResultCardProps) => {
             href={result.helpUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-md text-blue-600 underline"
+            className="text-md text-blue-600 underline focus-visible:outline-orbit-blue"
           >
             <em>Learn '{result.id}' best practices.</em>
           </a>
         </p>
 
         {/* affected DOM elements (code)*/}
-        <article className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Elements in Review</h3>
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-lg">Elements in Review</p>
 
           {/* buttons, switching thru violations of the same type */}
           <div className="flex justify-between gap-2 border py-2 px-1">
@@ -74,35 +102,52 @@ const ResultCard = ({ result }: ResultCardProps) => {
             <div className="w-6 items-center flex">
               {currentNode > 0 && (
                 <button
-                  className="border-none cursor-pointer"
+                  aria-label="Previous Element"
+                  className="border-none cursor-pointer focus-visible:outline-orbit-blue"
                   onClick={() => {
                     if (currentNode > 0) setCurrentNode(currentNode - 1);
                   }}
                 >
-                  <ArrowLeft />
+                  <img
+                    src={arrowLeft}
+                    // alt is left blank bcuz the buttons aria-label describes the action
+                    alt=""
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                  />
                 </button>
               )}
             </div>
-            <span>
+            {/* aria-live allows screen reader users to hear the update when they click next/prev. 
+            otherwise SR's wont say it when the currentNode changes. "polite" means the SR waits until the user
+            finishes what they are currently doing b4 announcing the update. */}
+            <span aria-live="polite">
               Element {currentNode + 1} of {result.nodes.length}
             </span>
 
             <div className="w-6 items-center flex">
               {currentNode < result.nodes.length - 1 && (
                 <button
-                  className="border-none cursor-pointer"
+                  aria-label="Next Element"
+                  className="border-none cursor-pointer focus-visible:outline-orbit-blue"
                   onClick={() => {
                     if (currentNode < result.nodes.length - 1)
                       setCurrentNode(currentNode + 1);
                   }}
                   disabled={currentNode === result.nodes.length - 1}
                 >
-                  <ArrowRight />
+                  <img
+                    src={arrowRight}
+                    // alt is left blank bcuz the buttons aria-label describes the action
+                    alt=""
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                  />
                 </button>
               )}
             </div>
           </div>
-          <h4 className="font-bold text-lg">How to Fix</h4>
+          <p className="font-bold text-lg">How to Fix</p>
 
           <div>
             <p>Selector</p>
@@ -115,7 +160,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
             <p>HTML</p>
             <code className={codeStyle}>{result.nodes[currentNode].html}</code>
           </div>
-        </article>
+        </div>
       </section>
     </details>
   );
