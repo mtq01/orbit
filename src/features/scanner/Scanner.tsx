@@ -406,7 +406,7 @@ const Scanner = () => {
       {!results ? (
         <>
           <p>🪐</p>
-          <h2>Check this page for accessibility</h2>
+          <h1>Check this page for accessibility</h1>
 
           {/* handleScan button commented out during UI build */}
           {/* <button onClick={handleScan}>Run Scan</button> */}
@@ -422,11 +422,12 @@ const Scanner = () => {
         </>
       ) : (
         <>
-          <h2>Scan Results</h2>
+          <h1 className="text-2xl font-bold">Scan Results</h1>
           <p>24 elements to review</p>
           <div>
             <p> All | Critical | Serious | Moderate</p>
           </div>
+          
           {/* handleScan button commented out during UI build */}
           {/* <button onClick={handleScan}>Run Scan</button> */}
 
