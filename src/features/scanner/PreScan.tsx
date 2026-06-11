@@ -6,7 +6,7 @@ type PreScanProps = {
 
 const PreScan = ({ onScan }: PreScanProps) => {
   return (
-    <section className="justify-center items-center flex flex-col gap-16 h-screen max-w-sm mx-auto text-center px-4">
+    <section className="justify-center items-center flex flex-col gap-16 h-full max-w-sm mx-auto text-center px-4">
       <img src={RadarIcon} alt="radar icon" className="radar-icon" />
       <h1 className="font-bold text-2xl max-w-xs tracking-tighter">
         Check this page for accessibility

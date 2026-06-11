@@ -31,7 +31,6 @@ const App = () => {
   return (
     // full viewport height for scanner
     <div className="flex flex-col overflow-hidden h-dvh">
-
       <Header />
 
       {/* nav can be repurposed for Filters */}

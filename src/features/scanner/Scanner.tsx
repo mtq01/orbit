@@ -1,8 +1,9 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
 import ResultCard from "../scanner/ResultCard";
-import PreScan from "../scanner/PreScan";
+import PreScan from "./PreScan";
 import NoIssue from "./NoIssue";
+import Loader from "./Loader";
 
 const Scanner = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -359,11 +360,15 @@ const Scanner = () => {
   // TEMPORARY FOR UI DEVELOPMENT
   const [results, setResults] = useState<AxeResults | null>(null);
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const [isLoading, setIsLoading] = useState(false);
 
   // error state
   const [error, _setError] = useState<string | null>(null);
 
-  const handleRunScan = () => setResults(mockResults as AxeResults);
+  const handleRunScan = () => {
+    setResults(mockResults as AxeResults);
+    setIsLoading(true);
+  };
 
   // -------------------------------------------------------------------------
   /* DO NOT DELETE - COMMENTED OUT DURING UI DEV 
@@ -402,12 +407,14 @@ const Scanner = () => {
   // -------------------------------------------------------------------------
 
   return (
-    <section aria-label="Accessibility Scanner">
+    <section aria-label="Accessibility Scanner" className="h-full">
       {/* Error State: an error will still show in console, but this error msg is whats happening. */}
       {error ? <p role="alert">{error}</p> : null}
 
       {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
-      {!results ? (
+      {isLoading ? (
+        <Loader />
+      ) : !results ? (
         <PreScan onScan={handleRunScan} />
       ) : results.violations.length === 0 ? (
         <NoIssue onScan={handleRunScan} />
