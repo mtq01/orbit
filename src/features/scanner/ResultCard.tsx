@@ -78,9 +78,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
       >
         {/* description of result */}
         <p>
-          {result.nodes[currentNode].any[0] && (
-            <>{result.nodes[currentNode].any[0].message}. </>
-          )}
+          {result.help}.{" "}
           {/* learn best practices link */}
           <a
             href={result.helpUrl}
