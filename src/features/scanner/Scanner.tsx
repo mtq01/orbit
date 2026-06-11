@@ -20,7 +20,27 @@ const Scanner = () => {
             failureSummary:
               "Fix any of the following: Element has insufficient color contrast of 2.32:1 (foreground color: #ffffff, background color: #cccccc, font size: 14pt, font weight: normal). Expected contrast ratio of 4.5:1",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
+            all: [],
+            none: [],
+          },
+          {
+            html: '<a class="nav-link">Home</a>',
+            failureSummary: "Fix any of the following...",
+            target: ["a.nav-link"],
+            any: [
+              {
+                message:
+                  "Element has insufficient color contrast of 1.8:1. Expected contrast ratio of 4.5:1",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -38,7 +58,14 @@ const Scanner = () => {
             failureSummary:
               "Fix any of the following: Element does not have inner text that is visible to screen readers. aria-label attribute does not exist or is empty. aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty.",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -56,7 +83,14 @@ const Scanner = () => {
             failureSummary:
               "Fix all of the following: Document does not have a main landmark",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -75,7 +109,14 @@ const Scanner = () => {
             failureSummary:
               "Fix all of the following: Page must have a level-one heading",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -90,7 +131,12 @@ const Scanner = () => {
         help: "html element must have a lang attribute",
         helpUrl: "https://dequeuniversity.com/rules/axe/4.11/html-has-lang",
         target: ["button"],
-        any: [],
+        any: [
+          {
+            message:
+              "Element does not have inner text that is visible to screen readers",
+          },
+        ],
         all: [],
         none: [],
         nodes: [
@@ -111,7 +157,14 @@ const Scanner = () => {
             html: "<title>My Page</title>",
             failureSummary: "",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -129,7 +182,14 @@ const Scanner = () => {
             html: '<img src="logo.png" alt="Company logo">',
             failureSummary: "",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -146,7 +206,14 @@ const Scanner = () => {
             html: '<input type="text" id="name" aria-label="Full name">',
             failureSummary: "",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -163,7 +230,14 @@ const Scanner = () => {
             html: "<ul><li>Item one</li><li>Item two</li></ul>",
             failureSummary: "",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -184,7 +258,14 @@ const Scanner = () => {
             failureSummary:
               "axe couldn't determine the contrast ratio — background color could not be determined due to a background image or gradient",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -202,7 +283,14 @@ const Scanner = () => {
             failureSummary:
               "axe couldn't determine if this input has an associated label — it may be labeled via JavaScript or a custom ARIA pattern",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -220,7 +308,14 @@ const Scanner = () => {
             failureSummary:
               "axe couldn't determine if this element is the only main landmark on the page",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
@@ -239,7 +334,14 @@ const Scanner = () => {
             failureSummary:
               "axe couldn't determine if this image is decorative or informative",
             target: ["button"],
-            any: [],
+            any: [
+              {
+                id: "color-contrast",
+                impact: "serious",
+                data: {},
+                message: "Element has insufficient color contrast...",
+              },
+            ],
             all: [],
             none: [],
           },
