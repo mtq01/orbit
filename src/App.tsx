@@ -8,6 +8,7 @@ import type { Tab } from "./types";
 // Components
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 // import ScannerTest from "./features/scanner/ScannerTest";
 import Scanner from "./features/scanner/Scanner";
 import Colors from "./features/colors/Colors";
@@ -28,10 +29,15 @@ const App = () => {
   };
 
   return (
-    <div className="panel">
+    // full viewport height for scanner
+    <div className="flex flex-col overflow-hidden h-dvh">
+
+      <Header />
+
+      {/* nav can be repurposed for Filters */}
       <Nav activeTab={activeTab} onTabClick={handleTabClick} />
 
-      <main>
+      <main className="flex-1 overflow-y-auto">
         {/* && = only render this component if the condition on the left is true */}
         {activeTab === "scanner" && <Scanner />}
         {activeTab === "tools" && <Tools />}

@@ -46,6 +46,6 @@
   }
   /* temporary just so we can see where they are  */
   button {
-    border: black solid 1px;
+    border: var(--color-orbit-blue) solid 1px;
   }
 }
