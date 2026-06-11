@@ -31,13 +31,21 @@ const App = () => {
   return (
     // full viewport height for scanner
     <div className="flex flex-col overflow-hidden h-dvh">
-
       <Header />
 
       {/* nav can be repurposed for Filters */}
       <Nav activeTab={activeTab} onTabClick={handleTabClick} />
 
-      <main className="flex-1 overflow-y-auto">
+      <main
+      // ID, ROLE, and ARIA-LABELLEDBY should be moved to the FILTERS container when its built ---->>> MAHTAB
+        // dynamically sets the panels ID based on the active tab.
+        id={`panel-$activeTab}`}
+        // tells screen readers, 'this is the content area associated with the active tab'
+        role="tabpanel"
+        // points back to the active tab btn by its ID (used to announce the panels name, ex "Scanner Tab Panel")
+        aria-labelledby={`tab-${activeTab}`}
+        className="flex-1 overflow-y-auto"
+      >
         {/* && = only render this component if the condition on the left is true */}
         {activeTab === "scanner" && <Scanner />}
         {activeTab === "tools" && <Tools />}
