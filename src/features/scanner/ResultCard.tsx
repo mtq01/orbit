@@ -23,7 +23,7 @@ const impactStyles = {
 
 // code section styles
 const codeStyle =
-  "block text-md text-[var(--color-orbit-white)] bg-[var(--color-orbit-blue)] px-3 py-2 rounded mb-3 truncate";
+  "block text-md text-[var(--color-orbit-white)] bg-[var(--color-orbit-blue)] px-3 py-2 rounded mb-3 break-words";
 
 // accepts the result from ResultCardProps
 const ResultCard = ({ result }: ResultCardProps) => {
@@ -78,9 +78,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
       >
         {/* description of result */}
         <p>
-          {result.nodes[currentNode].any[0] && (
-            <>{result.nodes[currentNode].any[0].message}. </>
-          )}
+          {result.help}.{" "}
           {/* learn best practices link */}
           <a
             href={result.helpUrl}
