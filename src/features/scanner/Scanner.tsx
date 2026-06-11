@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { AxeResults } from "../../types";
 import ResultCard from "../scanner/ResultCard";
+import PreScan from "../scanner/PreScan";
+import NoIssue from "./NoIssue";
 
 const Scanner = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -361,6 +363,8 @@ const Scanner = () => {
   // error state
   const [error, _setError] = useState<string | null>(null);
 
+  const handleRunScan = () => setResults(mockResults as AxeResults);
+
   // -------------------------------------------------------------------------
   /* DO NOT DELETE - COMMENTED OUT DURING UI DEV 
   const handleScan = () => {
@@ -404,22 +408,9 @@ const Scanner = () => {
 
       {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
       {!results ? (
-        <>
-          <p>🪐</p>
-          <h1>Check this page for accessibility</h1>
-
-          {/* handleScan button commented out during UI build */}
-          {/* <button onClick={handleScan}>Run Scan</button> */}
-
-          {/* DEV ONLY - rmv b4 production */}
-          <button
-            onClick={() =>
-              setResults(results ? null : (mockResults as AxeResults))
-            }
-          >
-            Run Scan (Toggle State - Dev Only)
-          </button>
-        </>
+        <PreScan onScan={handleRunScan} />
+      ) : results.violations.length === 0 ? (
+        <NoIssue onScan={handleRunScan} />
       ) : (
         <>
           <h1 className="text-2xl font-bold">Scan Results</h1>
@@ -427,7 +418,7 @@ const Scanner = () => {
           <div>
             <p> All | Critical | Serious | Moderate</p>
           </div>
-          
+
           {/* handleScan button commented out during UI build */}
           {/* <button onClick={handleScan}>Run Scan</button> */}
 
