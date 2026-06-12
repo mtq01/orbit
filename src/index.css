@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@fontsource-variable/dm-sans";
-@import "@fontsource/atkinson-hyperlegible";
-@import "@fontsource/atkinson-hyperlegible/700.css";
-@import "@fontsource/fira-code";
+@import "@fontsource-variable/dm-sans/wght.css";
+@import "@fontsource/atkinson-hyperlegible/latin-400.css";
+@import "@fontsource/atkinson-hyperlegible/latin-700.css";
+@import "@fontsource/fira-code/latin-400.css";
 
 /* @theme auto-generates utility classes
     --color-orbit-blue → bg-orbit-blue, text-orbit-blue */
@@ -17,11 +17,22 @@
   --color-moderate: #5842e4;
   --font-code: "Fira Code", monospace;
 
-  --font-body: "Atkinson Hyperlegible Variable", sans-serif;
+  --font-body: "Atkinson Hyperlegible", sans-serif;
   --font-heading: "DM Sans Variable", sans-serif;
 }
 
 /* Layer base Just means global elemt defaults in tailwind */
+@keyframes fade-slide {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
   #root {
     font-size: 16px;
