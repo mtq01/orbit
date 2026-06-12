@@ -2,7 +2,8 @@ import type { NodeResult } from "axe-core";
 
 // TYPE: a value that can only be one of these exact strings. nothing else is allowed.
 // if you typo "scaner" anywhere in the app, TypeScript catches it before it runs.
-export type Tab = "scanner" | "tools" | "colors" | "checklist";
+export type Tab = "scanner" | "tools" | "colors" | "checklist"; 
+export type FilterTab = "all" | "critical" | "serious" | "moderate";
 
 // INTERFACE: describes the shape of an object. every AxeResult must have all these properties.
 // think of it like a contract. if any property is missing or the wrong type, TypeScript errors.
@@ -11,7 +12,7 @@ export interface AxeResult {
   description: string;
   help: string;
   helpUrl: string;
-  impact: "minor" | "moderate" | "serious" | "critical";
+  impact: "moderate" | "serious" | "critical";
   // NodeResult[] = an array of NodeResult objects (DOM elements)
   nodes: NodeResult[];
 }

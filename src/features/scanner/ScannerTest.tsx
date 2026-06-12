@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { AxeResults, ScanResponse } from "../../types";
+import type { AxeResults, AxeResult, FilterTab, ScanResponse } from "../../types";
 import { SCAN_MESSAGE } from "../../types";
 import ResultCard from "../scanner/ResultCard";
 
@@ -9,6 +9,19 @@ const Scanner = () => {
 
   // null until something goes wrong, then it becomes a string message. value can be a string or null
   const [error, setError] = useState<string | null>(null);
+
+  //This one is for filtering through our tabs
+  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const tabs: FilterTab[] = ["all", "critical", "serious", "moderate"];
+let filteredResults: AxeResult[];
+
+if (!results) {
+  filteredResults = [];
+} else if (activeFilter === "all") {
+  filteredResults = results.violations.sort((a, b) => tabs.indexOf(a.impact) - tabs.indexOf(b.impact));
+} else {
+  filteredResults = results.violations.filter((v) => v.impact === activeFilter);
+}
 
   // true while axe-core is running, false otherwise
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -98,19 +111,29 @@ const Scanner = () => {
         <>
           <h2>Scan Results</h2>
           <p>24 elements to review</p>
-
-          <div>
-            <p>All | Critical | Serious | Moderate</p>
-          </div>
           <button onClick={handleScan} disabled={isLoading}>
             {isLoading ? "Scanning..." : "Re-Scan"}
           </button>
+          <div role="tablist" aria-label="Filter by impact">
+            {
+              tabs.map((tab)=> (
+                <button
+                key={tab}
+                role="tab"
+                aria-selected={activeFilter === tab}
+                onClick={() => setActiveFilter(tab)}>
+                  {tab}
+                </button>
+              ))}
+          </div>
+          {/* {filteredResults.map((result) => (<ResultCard key={result.id} result={result} />))} */}
 
           {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
-            {results.violations.map((result) => (
+            {filteredResults.map((result) => (<ResultCard key={result.id} result={result} />))}
+            {/* {results.violations.map((result) => (
               <ResultCard key={result.id} result={result} />
-            ))}
+            ))} */}
           </section>
         </>
       )}
