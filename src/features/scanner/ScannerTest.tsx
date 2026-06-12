@@ -1,7 +1,15 @@
 import { useState } from "react";
-import type { AxeResults, ScanResponse } from "../../types";
+import type {
+  AxeResults,
+  AxeResult,
+  FilterTab,
+  ScanResponse,
+} from "../../types";
 import { SCAN_MESSAGE } from "../../types";
 import ResultCard from "../scanner/ResultCard";
+import PreScan from "./PreScan";
+import NoIssue from "./NoIssue";
+import Loader from "./Loader";
 
 const Scanner = () => {
   // Uses a union type (<AxeResults | null>) to allow the value to be either a AxeResults OR a null
@@ -9,6 +17,23 @@ const Scanner = () => {
 
   // null until something goes wrong, then it becomes a string message. value can be a string or null
   const [error, setError] = useState<string | null>(null);
+
+  //This one is for filtering through our tabs
+  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const tabs: FilterTab[] = ["all", "critical", "serious", "moderate"];
+  let filteredResults: AxeResult[];
+
+  if (!results) {
+    filteredResults = [];
+  } else if (activeFilter === "all") {
+    filteredResults = results.violations.sort(
+      (a, b) => tabs.indexOf(a.impact) - tabs.indexOf(b.impact),
+    );
+  } else {
+    filteredResults = results.violations.filter(
+      (v) => v.impact === activeFilter,
+    );
+  }
 
   // true while axe-core is running, false otherwise
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -77,40 +102,45 @@ const Scanner = () => {
   };
 
   return (
-    <section aria-label="Accessibility Scanner">
+    <section aria-label="Accessibility Scanner" className="h-full">
       {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
-      {error ? <p role="alert">{error}</p> : null}
 
-      {!results ? (
-        <>
-          <p>🪐</p>
-          <h2>Check this page for accessibility</h2>
-
-          {/* handleScan button commented out during UI build */}
-          {/* <button onClick={handleScan}>Run Scan</button> */}
-
-          {/* DEV ONLY - rmv b4 production */}
-          <button onClick={handleScan} disabled={isLoading}>
-            {isLoading ? "Scanning..." : "Run Scan"}
-          </button>
-        </>
+      {isLoading ? (
+        <Loader />
+      ) : !results ? (
+        <PreScan error={error} onScan={handleScan} />
+      ) : // just change === to > to test no issue
+      results.violations.length === 0 ? (
+        <NoIssue onScan={handleScan} />
       ) : (
         <>
           <h2>Scan Results</h2>
           <p>24 elements to review</p>
-
-          <div>
-            <p>All | Critical | Serious | Moderate</p>
-          </div>
           <button onClick={handleScan} disabled={isLoading}>
             {isLoading ? "Scanning..." : "Re-Scan"}
           </button>
+          <div role="tablist" aria-label="Filter by impact">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                role="tab"
+                aria-selected={activeFilter === tab}
+                onClick={() => setActiveFilter(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          {/* {filteredResults.map((result) => (<ResultCard key={result.id} result={result} />))} */}
 
           {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
-            {results.violations.map((result) => (
+            {filteredResults.map((result) => (
               <ResultCard key={result.id} result={result} />
             ))}
+            {/* {results.violations.map((result) => (
+              <ResultCard key={result.id} result={result} />
+            ))} */}
           </section>
         </>
       )}

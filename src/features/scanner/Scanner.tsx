@@ -419,7 +419,7 @@ const Scanner = () => {
       {isLoading ? (
         <Loader />
       ) : !results ? (
-        <PreScan onScan={handleRunScan} />
+        <PreScan error={error} onScan={handleRunScan} />
       ) : // just change === to > to test no issue
       results.violations.length === 0 ? (
         <NoIssue onScan={handleRunScan} />
