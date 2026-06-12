@@ -366,8 +366,12 @@ const Scanner = () => {
   const [error, _setError] = useState<string | null>(null);
 
   const handleRunScan = () => {
-    setResults(mockResults as AxeResults);
     setIsLoading(true);
+    // fake loader for now
+    setTimeout(() => {
+      setResults(mockResults as AxeResults);
+      setIsLoading(false);
+    }, 5000);
   };
 
   // -------------------------------------------------------------------------
@@ -416,7 +420,8 @@ const Scanner = () => {
         <Loader />
       ) : !results ? (
         <PreScan onScan={handleRunScan} />
-      ) : results.violations.length === 0 ? (
+      ) : // just change === to > to test no issue
+      results.violations.length === 0 ? (
         <NoIssue onScan={handleRunScan} />
       ) : (
         <>

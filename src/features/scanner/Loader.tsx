@@ -1,7 +1,15 @@
 function Loader() {
+  // Screen readers will announce "Scanning page..." when this appears. The spinner is hidden via aria-hidden so it is skipped entirely.
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-8 text-center px-4">
+    <div
+      className="flex flex-col items-center justify-center h-full gap-8 text-center px-4"
+      role="status"
+      aria-live="polite"
+    >
+      {/*  If you leave an SVG without hidding the aria-label, screen readers might announce 
+      it as a generic "graphic" or try to read out raw path data, which is completely unhelpful. */}
       <svg
+        aria-hidden="true"
         className="text-orbit-blue w-20 h-20"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"

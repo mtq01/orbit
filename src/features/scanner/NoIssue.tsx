@@ -6,11 +6,17 @@ type PreScanProps = {
 
 const PreScan = ({ onScan }: PreScanProps) => {
   return (
-    <section className="justify-center items-center flex flex-col gap-16 h-screen max-w-sm mx-auto text-center px-4">
-      <h1 className="font-bold text-2xl max-w-xs tracking-tighter">
+    <section
+      aria-labelledby="no-issue-heading"
+      className="justify-center items-center flex flex-col gap-12 h-full max-w-sm mx-auto text-center px-4"
+    >
+      <h1
+        id="no-issue-heading"
+        className="font-bold text-2xl max-w-xs tracking-tighter"
+      >
         No issues Found!
       </h1>
-      <img src={saturn} alt="saturn logo" className="w-24 h-24" />
+      <img src={saturn} alt="" className="w-24 h-24" />
       <p className="max-w-xs font-medium tracking-tigther">
         Automated scans can't catch everything. Manual testing users uncovers
         what automation misses.

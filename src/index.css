@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "@fontsource-variable/dm-sans";
-@import "@fontsource/atkinson-hyperlegible";
-@import "@fontsource/atkinson-hyperlegible/700.css";
-@import "@fontsource/fira-code";
+@import "@fontsource-variable/dm-sans/wght.css";
+@import "@fontsource/atkinson-hyperlegible/latin-400.css";
+@import "@fontsource/atkinson-hyperlegible/latin-700.css";
+@import "@fontsource/fira-code/latin-400.css";
 
 /* @theme auto-generates utility classes
     --color-orbit-blue → bg-orbit-blue, text-orbit-blue */
@@ -31,10 +31,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@utility animate-fade-slide {
-  animation: fade-slide 0.6s ease-out forwards;
 }
 
 @layer base {
