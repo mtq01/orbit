@@ -37,7 +37,7 @@ const App = () => {
       <Nav activeTab={activeTab} onTabClick={handleTabClick} />
 
       <main
-      // ID, ROLE, and ARIA-LABELLEDBY should be moved to the FILTERS container when its built ---->>> MAHTAB
+        // ID, ROLE, and ARIA-LABELLEDBY should be moved to the FILTERS container when its built ---->>> MAHTAB
         // dynamically sets the panels ID based on the active tab.
         id={`panel-$activeTab}`}
         // tells screen readers, 'this is the content area associated with the active tab'
