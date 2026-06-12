@@ -425,19 +425,25 @@ const Scanner = () => {
         <NoIssue onScan={handleRunScan} />
       ) : (
         <>
-          <h1 className="text-2xl font-bold">Scan Results</h1>
-          <p>24 elements to review</p>
-          <div>
-            <p> All | Critical | Serious | Moderate</p>
+        <div className="flex justify-between mx-3" >
+          <h1 className="text-3xl font-bold mt-2">Scan Complete</h1>
+          <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2" onClick={() => setResults(mockResults as AxeResults)}>
+            ⏎ Re-Scan (Dev)
+          </button>
+          </div>
+          <p className="mx-3">24 elements to review</p>
+          <div className="flex space-x-2  mx-3 pt-8" >
+            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">All</button>
+            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">Critical</button>
+            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">Serious</button>
+            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">Moderate</button>
           </div>
 
           {/* handleScan button commented out during UI build */}
-          {/* <button onClick={handleScan}>Run Scan</button> */}
+          {/* <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2" onClick={handleScan}>Run Scan</button>  */}
 
           {/* DEV ONLY - rmv b4 production */}
-          <button onClick={() => setResults(mockResults as AxeResults)}>
-            ⏎ Re-Scan (Dev)
-          </button>
+
 
           {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">

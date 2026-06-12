@@ -101,6 +101,13 @@ const Scanner = () => {
     }
   };
 
+  //helper function to show the impact number on each tabs
+  const getCount = (tab: string) => {
+    if (!results) return 0;
+    if (tab === "all") return results.violations.length;
+    return results.violations.filter((v) => v.impact === tab).length;
+  };
+
   return (
     <section aria-label="Accessibility Scanner" className="h-full">
       {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
@@ -114,20 +121,31 @@ const Scanner = () => {
         <NoIssue onScan={handleScan} />
       ) : (
         <>
-          <h2>Scan Results</h2>
-          <p>24 elements to review</p>
-          <button onClick={handleScan} disabled={isLoading}>
-            {isLoading ? "Scanning..." : "Re-Scan"}
-          </button>
-          <div role="tablist" aria-label="Filter by impact">
+          <div className="flex justify-between mx-3">
+            <h1 className="text-3xl font-bold mt-2">Scan Complete</h1>
+            <button
+              className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2"
+              onClick={handleScan}
+              disabled={isLoading}
+            >
+              {isLoading ? "Scanning..." : "Re-Scan"}
+            </button>
+          </div>
+          <p className="mx-3">24 elements to review</p>
+          <div
+            className="flex space-x-2  mx-3 pt-8"
+            role="tablist"
+            aria-label="Filter by impact"
+          >
             {tabs.map((tab) => (
               <button
+                className={`${activeFilter === tab ? "bg-orbit-blue text-orbit-white rounded-sm px-2" : "bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2"}`}
                 key={tab}
                 role="tab"
                 aria-selected={activeFilter === tab}
                 onClick={() => setActiveFilter(tab)}
               >
-                {tab}
+                {tab} ({getCount(tab)})
               </button>
             ))}
           </div>
