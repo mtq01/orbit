@@ -1,463 +1,160 @@
 import { useState } from "react";
-import type { AxeResults } from "../../types";
+import type {
+  AxeResults,
+  AxeResult,
+  FilterTab,
+  ScanResponse,
+} from "../../types";
+import { SCAN_MESSAGE } from "../../types";
 import ResultCard from "../scanner/ResultCard";
 import PreScan from "./PreScan";
 import NoIssue from "./NoIssue";
 import Loader from "./Loader";
 
 const Scanner = () => {
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // MOCK DATA DURING UI DEVELOPMENT (TEMPORARY)
-  const mockResults = {
-    violations: [
-      {
-        id: "color-contrast",
-        impact: "critical",
-        description:
-          "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
-        help: "Elements must have sufficient color contrast",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/color-contrast",
-        nodes: [
-          {
-            html: '<button class="btn">Click me</button>',
-            failureSummary:
-              "Fix any of the following: Element has insufficient color contrast of 2.32:1 (foreground color: #ffffff, background color: #cccccc, font size: 14pt, font weight: normal). Expected contrast ratio of 4.5:1",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-          {
-            html: '<a class="nav-link">Home</a>',
-            failureSummary: "Fix any of the following...",
-            target: ["a.nav-link"],
-            any: [
-              {
-                message:
-                  "Element has insufficient color contrast of 1.8:1. Expected contrast ratio of 4.5:1",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "button-name",
-        impact: "serious",
-        description: "Ensures buttons have discernible text",
-        help: "Buttons must have discernible text",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/button-name",
-        nodes: [
-          {
-            html: "<button></button>",
-            failureSummary:
-              "Fix any of the following: Element does not have inner text that is visible to screen readers. aria-label attribute does not exist or is empty. aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty.",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "landmark-one-main",
-        impact: "moderate",
-        description: "Ensures the document has a main landmark",
-        help: "Document should have one main landmark",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
-        nodes: [
-          {
-            html: "<html lang='en'>",
-            failureSummary:
-              "Fix all of the following: Document does not have a main landmark",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "page-has-heading-one",
-        impact: "minor",
-        description: "Ensures the page has at least one level-one heading",
-        help: "Page should contain a level-one heading",
-        helpUrl:
-          "https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one",
-        nodes: [
-          {
-            html: "<html lang='en'>",
-            failureSummary:
-              "Fix all of the following: Page must have a level-one heading",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-    ],
-    passes: [
-      {
-        id: "html-has-lang",
-        impact: "serious",
-        description: "Ensures every HTML document has a lang attribute",
-        help: "html element must have a lang attribute",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/html-has-lang",
-        target: ["button"],
-        any: [
-          {
-            message:
-              "Element does not have inner text that is visible to screen readers",
-          },
-        ],
-        all: [],
-        none: [],
-        nodes: [
-          {
-            html: "<html lang='en'>",
-            failureSummary: "",
-          },
-        ],
-      },
-      {
-        id: "document-title",
-        impact: "serious",
-        description: "Ensures each HTML document contains a non-empty title",
-        help: "Documents must have a title element",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/document-title",
-        nodes: [
-          {
-            html: "<title>My Page</title>",
-            failureSummary: "",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "image-alt",
-        impact: "critical",
-        description:
-          "Ensures img elements have alternate text or a role of none or presentation",
-        help: "Images must have alternate text",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/image-alt",
-        nodes: [
-          {
-            html: '<img src="logo.png" alt="Company logo">',
-            failureSummary: "",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "label",
-        impact: "moderate",
-        description: "Ensures every form element has a label",
-        help: "Form elements must have labels",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/label",
-        nodes: [
-          {
-            html: '<input type="text" id="name" aria-label="Full name">',
-            failureSummary: "",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "list",
-        impact: "minor",
-        description: "Ensures that lists are structured correctly",
-        help: "list element must have direct children that are the appropriate list item elements",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/list",
-        nodes: [
-          {
-            html: "<ul><li>Item one</li><li>Item two</li></ul>",
-            failureSummary: "",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-    ],
-    incomplete: [
-      {
-        id: "color-contrast",
-        impact: "serious",
-        description:
-          "Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds",
-        help: "Elements must have sufficient color contrast",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/color-contrast",
-        nodes: [
-          {
-            html: "<p class='text-gray-400'>Some text</p>",
-            failureSummary:
-              "axe couldn't determine the contrast ratio — background color could not be determined due to a background image or gradient",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "label",
-        impact: "critical",
-        description: "Ensures every form element has a label",
-        help: "Form elements must have labels",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/label",
-        nodes: [
-          {
-            html: '<input type="text">',
-            failureSummary:
-              "axe couldn't determine if this input has an associated label — it may be labeled via JavaScript or a custom ARIA pattern",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "landmark-one-main",
-        impact: "moderate",
-        description: "Ensures the document has a main landmark",
-        help: "Document should have one main landmark",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main",
-        nodes: [
-          {
-            html: "<div role='main'>",
-            failureSummary:
-              "axe couldn't determine if this element is the only main landmark on the page",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-      {
-        id: "image-alt",
-        impact: "minor",
-        description:
-          "Ensures img elements have alternate text or a role of none or presentation",
-        help: "Images must have alternate text",
-        helpUrl: "https://dequeuniversity.com/rules/axe/4.11/image-alt",
-        nodes: [
-          {
-            html: '<img src="decorative.png">',
-            failureSummary:
-              "axe couldn't determine if this image is decorative or informative",
-            target: ["button"],
-            any: [
-              {
-                id: "color-contrast",
-                impact: "serious",
-                data: {},
-                message: "Element has insufficient color contrast...",
-              },
-            ],
-            all: [],
-            none: [],
-          },
-        ],
-      },
-    ],
-  };
-  /* COMMENTED OUT DURING UI DEVELOPMENT, DO NOT DELETE
-  // stores axe-core scan results. null until a scan has been run.
-  // const [results, setResults] = useState<AxeResults | null>(null);
-  */
-
-  // TEMPORARY FOR UI DEVELOPMENT
+  // Uses a union type (<AxeResults | null>) to allow the value to be either a AxeResults OR a null
   const [results, setResults] = useState<AxeResults | null>(null);
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  const [isLoading, setIsLoading] = useState(false);
 
-  // error state
-  const [error, _setError] = useState<string | null>(null);
+  // null until something goes wrong, then it becomes a string message. value can be a string or null
+  const [error, setError] = useState<string | null>(null);
 
-  const handleRunScan = () => {
+  //This one is for filtering through our tabs
+  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const tabs: FilterTab[] = ["all", "critical", "serious", "moderate"];
+  let filteredResults: AxeResult[];
+
+  if (!results) {
+    filteredResults = [];
+  } else if (activeFilter === "all") {
+    filteredResults = results.violations.sort(
+      (a, b) => tabs.indexOf(a.impact) - tabs.indexOf(b.impact),
+    );
+  } else {
+    filteredResults = results.violations.filter(
+      (v) => v.impact === activeFilter,
+    );
+  }
+
+  //helper function to show the impact number on each tabs
+  const getCount = (tab: string) => {
+    if (!results) return 0;
+    if (tab === "all") return results.violations.length;
+    return results.violations.filter((v) => v.impact === tab).length;
+  };
+
+  // true while axe-core is running, false otherwise
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleScan = async () => {
+    // reset everything before each scan soresults don't linger
     setIsLoading(true);
-    // fake loader for now
-    setTimeout(() => {
-      setResults(mockResults as AxeResults);
-      setIsLoading(false);
-    }, 5000);
-  };
+    setResults(null);
+    setError(null);
 
-  // -------------------------------------------------------------------------
-  /* DO NOT DELETE - COMMENTED OUT DURING UI DEV 
-  const handleScan = () => {
-    
-    [Function Flow]:
-      - Scanner.tsx > background.js > content.ts > axe-core > content.ts > background.js > Scanner.tsx
-
-    [Step by Step]
-      - user clicks "run scan" inside Scanner.tsx UI
-      - "run scan" triggers chrome.runtime.sendMessage and tells background.js to talk to content.ts to talk to axe-core
-      - axe-core runs the scan and sends response back to content.ts, which sends a msg to background.js, which sends results back to Scanner.tsx to be displayed in the UI.
-
-    [Details]:
-     - chrome.runtime.sendMessage is a function that talks to background.js  
-     - type: "RUN_SCAN" is the message payload 
-     - (reponse) is the data axe core sends back.
-     - setResults prints it in the UI
-
-
-
-
-
-    chrome.runtime.sendMessage({ type: "RUN_SCAN" }, (response) => {
-      if (!response) {
-        setError(
-          "This page can't be scanned. Chrome blocks extensions on browser homepages and internal pages for security reasons.",
-        );
-        return;
-      }
-      // stores the axe results in state so the UI can use them.
-      setResults(response.results);
+    // find the tab the user is actually looking at.
+    // lastFocusedWindow is critical here the side panel is its own window context,
+    // so without it we'd be targeting the panel itself, not the browser tab.
+    // source: https://developer.chrome.com/docs/extensions/reference/api/tabs#method-query
+    const [tab] = await chrome.tabs.query({
+      lastFocusedWindow: true,
+      active: true,
     });
+
+    // if there's no tab id, we can't scan stop here and tell the user why. we will need to add much more robust error handling later
+    if (
+      !tab?.id ||
+      !tab.url ||
+      tab.url.startsWith("chrome://") ||
+      tab.url.startsWith("chrome-extension://")
+    ) {
+      setError(
+        "This page can't be scanned. Chrome blocks extensions on browser homepages and internal pages for security reasons.",
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    // inject content.js into the active tab on demand.
+    // this is why the scan works on ANY tab, even ones opened before the extension loaded.
+    // without this, tabs that were already open when the extension installed would never get the content script.
+    // source: https://developer.chrome.com/docs/extensions/reference/api/scripting/#method-executeScript
+    // we need to add this if not using background.js for routing
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["content.js"],
+    });
+
+    // the side panel is a chrome-extension:// page with full Chrome API access,
+    // so it can call tabs.sendMessage directly.
+    // SCAN_MESSAGE is a typed constant from types.ts so we never typo the message type.
+    // https://developer.chrome.com/docs/extensions/reference/api/tabs#method-sendMessage
+    try {
+      // whenever you await something TypeScript doesnt know the shape of, use "as" to tell it what to expect.
+      // sendMessage returns "any" by default so TypeScript has no idea what comes back.
+      // "as ScanResponse" says: we know what this is, it matches the shape we defined in types.ts.
+      const response = (await chrome.tabs.sendMessage(
+        tab.id,
+        SCAN_MESSAGE,
+      )) as ScanResponse;
+      setResults(response.results);
+    } catch {
+      setError(
+        "Could not connect to the page. Try reloading the tab you want to scan.",
+      );
+    } finally {
+      // finally always runs whether the scan worked or crashed.
+      // keeps us from writing setIsLoading(false) twice in both try and catch.
+      setIsLoading(false);
+    }
   };
-*/
-  // -------------------------------------------------------------------------
 
   return (
     <section aria-label="Accessibility Scanner" className="h-full">
-      {/* Error State: an error will still show in console, but this error msg is whats happening. */}
-      {error ? <p role="alert">{error}</p> : null}
+      {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
 
-      {/* if results is EMPTY, display default blank page, if NOT empty, display scan results */}
       {isLoading ? (
         <Loader />
       ) : !results ? (
-        <PreScan error={error} onScan={handleRunScan} />
+        <PreScan error={error} onScan={handleScan} />
       ) : // just change === to > to test no issue
       results.violations.length === 0 ? (
-        <NoIssue onScan={handleRunScan} />
+        <NoIssue onScan={handleScan} />
       ) : (
+
+        // move this section to a component on next update. cleans up codebase.
         <>
-          <div className="flex justify-between mx-3">
-            <h1 className="text-3xl font-bold mt-2">Scan Complete</h1>
+          <div className="flex justify-between items-center mx-3 mt-4">
+            <h1 className="text-3xl font-bold">Scan Complete</h1>
             <button
-              className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2"
-              onClick={() => setResults(mockResults as AxeResults)}
+              className="bg-orbit-white hover:bg-orbit-light-blue cursor-pointer hover:text-orbit-white border rounded-sm px-2"
+              onClick={handleScan}
+              disabled={isLoading}
             >
-              ⏎ Re-Scan (Dev)
+              {isLoading ? "Scanning..." : "Re-Scan"}
             </button>
           </div>
-          <p className="mx-3">24 elements to review</p>
-          <div className="flex space-x-2  mx-3 pt-8">
-            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">
-              All
-            </button>
-            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">
-              Critical
-            </button>
-            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">
-              Serious
-            </button>
-            <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2">
-              Moderate
-            </button>
+          <p className="mx-3">{results.violations.length} elements to review</p>
+          <div
+            className="flex space-x-2 mx-3 pt-8 pb-1"
+            role="tablist"
+            aria-label="Filter by impact"
+          >
+            {tabs.map((tab) => (
+              <button
+                className={`${activeFilter === tab ? "bg-orbit-blue border cursor-pointer text-orbit-white rounded-sm px-2" : "bg-orbit-white cursor-pointer hover:bg-orbit-light-blue border hover:text-orbit-white rounded-sm px-2"}`}
+                key={tab}
+                role="tab"
+                aria-selected={activeFilter === tab}
+                onClick={() => setActiveFilter(tab)}
+              >
+                {tab} ({getCount(tab)})
+              </button>
+            ))}
           </div>
-
-          {/* handleScan button commented out during UI build */}
-          {/* <button className="bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white rounded-sm px-2" onClick={handleScan}>Run Scan</button>  */}
-
-          {/* DEV ONLY - rmv b4 production */}
 
           {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
-            {results.violations.map((result) => (
+            {filteredResults.map((result) => (
               <ResultCard key={result.id} result={result} />
             ))}
           </section>
@@ -466,5 +163,4 @@ const Scanner = () => {
     </section>
   );
 };
-
 export default Scanner;

@@ -29,7 +29,7 @@ const PreScan = ({ onScan, error }: PreScanProps) => {
       )}
       <button
         onClick={onScan}
-        className="px-4 w-full max-w-[300px] bg-orbit-blue text-orbit-white text-xl font-bold rounded-lg py-3"
+        className="px-4 w-full max-w-75 cursor-pointer bg-orbit-blue text-orbit-white text-xl font-bold rounded-lg py-3"
       >
         Run Scan
       </button>
