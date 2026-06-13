@@ -35,6 +35,13 @@ const Scanner = () => {
     );
   }
 
+  //helper function to show the impact number on each tabs
+  const getCount = (tab: string) => {
+    if (!results) return 0;
+    if (tab === "all") return results.violations.length;
+    return results.violations.filter((v) => v.impact === tab).length;
+  };
+
   // true while axe-core is running, false otherwise
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -101,13 +108,6 @@ const Scanner = () => {
     }
   };
 
-  //helper function to show the impact number on each tabs
-  const getCount = (tab: string) => {
-    if (!results) return 0;
-    if (tab === "all") return results.violations.length;
-    return results.violations.filter((v) => v.impact === tab).length;
-  };
-
   return (
     <section aria-label="Accessibility Scanner" className="h-full">
       {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
@@ -131,7 +131,7 @@ const Scanner = () => {
               {isLoading ? "Scanning..." : "Re-Scan"}
             </button>
           </div>
-          <p className="mx-3">24 elements to review</p>
+          <p className="mx-3">{results.violations.length} elements to review</p>
           <div
             className="flex space-x-2  mx-3 pt-8"
             role="tablist"
@@ -149,16 +149,12 @@ const Scanner = () => {
               </button>
             ))}
           </div>
-          {/* {filteredResults.map((result) => (<ResultCard key={result.id} result={result} />))} */}
 
           {/* Scan Results: list of result cards */}
           <section aria-label="Scan Results">
             {filteredResults.map((result) => (
               <ResultCard key={result.id} result={result} />
             ))}
-            {/* {results.violations.map((result) => (
-              <ResultCard key={result.id} result={result} />
-            ))} */}
           </section>
         </>
       )}
