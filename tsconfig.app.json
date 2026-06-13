@@ -4,8 +4,14 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
+    "types": ["vite/client", "chrome"],
     "skipLibCheck": true,
+    // TypeScript 7.0 will force us to use package.json imports, its the modern approach. TS 7 is not out as of 06/02/26
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

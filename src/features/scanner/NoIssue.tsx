@@ -1,0 +1,37 @@
+import saturn from "@/assets/logos/saturn.svg";
+
+type PreScanProps = {
+  onScan: () => void;
+};
+
+const PreScan = ({ onScan }: PreScanProps) => {
+  return (
+    <section
+      aria-labelledby="no-issue-heading"
+      className="justify-center items-center flex flex-col gap-12 h-full max-w-sm mx-auto text-center px-4"
+    >
+      <h1
+        id="no-issue-heading"
+        className="font-bold text-2xl max-w-xs tracking-tighter"
+      >
+        No issues Found!
+      </h1>
+      <img src={saturn} alt="" className="w-24 h-24" />
+      <p className="max-w-xs font-medium tracking-tigther">
+        Automated scans can't catch everything. Manual testing users uncovers
+        what automation misses.
+      </p>
+      <button
+        onClick={onScan}
+        className="px-4 w-full max-w-75 bg-orbit-blue text-orbit-white text-xl font-bold rounded-lg py-3"
+      >
+        Run A New Scan
+      </button>
+      <p className="max-w-xs font-medium tracking-tigther">
+        Every improvement you make creates a better experience for everyone.
+      </p>
+    </section>
+  );
+};
+
+export default PreScan;
