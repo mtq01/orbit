@@ -28,6 +28,7 @@
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -53,11 +54,14 @@
   h6 {
     font-family: var(--font-heading);
   }
+
   code {
     font-family: var(--font-code);
   }
-  /* temporary just so we can see where they are  */
-  button {
-    border: var(--color-orbit-blue) solid 1px;
+
+  /* all focus states for keyboard nav - accessibility */
+  *:focus-visible {
+    outline: 3px solid var(--color-orbit-light-blue);
+    outline-offset: 2px;
   }
 }
