@@ -6,6 +6,8 @@ import axe from "axe-core";
 
 _sender in TS means: "this param exists but im not using it."
 */
+let lastHighlighted: HTMLElement | null = null;
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   // only react to msgs asking for a scan specifically.
   if (message.type === "RUN_SCAN") {
@@ -19,5 +21,20 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     - without it, chrome closes the connection before axe is finished. */
     runScan();
     return true;
+  }
+
+  if (message.type === "HighlightEl") {
+    if (lastHighlighted) {
+      lastHighlighted.style.outline = "";
+    }
+
+    const el = document.querySelector(message.selector) as HTMLElement | null;
+
+    if (el) {
+      el.style.outline = "4px solid #2116f5";
+      el.style.outlineOffset = "4px";
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      lastHighlighted = el;
+    }
   }
 });
