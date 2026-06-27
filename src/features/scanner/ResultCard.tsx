@@ -1,5 +1,6 @@
 import type { AxeResult } from "../../types";
-import { useState } from "react";
+import type { HighlightEl } from "../../types";
+import { useEffect, useState } from "react";
 
 // icons
 import arrowLeft from "../../assets/icons/arrow-left.svg";
@@ -30,6 +31,24 @@ const ResultCard = ({ result }: ResultCardProps) => {
   const styles = impactStyles[result.impact];
   const [isOpen, setIsOpen] = useState(false);
   const [currentNode, setCurrentNode] = useState(0);
+
+  //This Highlights the element in the DOM when the user clicks on the result card or element list
+
+  // It listens for changes in current node on a render, then fires this off"
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const selector = result.nodes[currentNode].target[0];
+    if (typeof selector !== "string") return;
+
+    chrome.tabs
+      .query({ lastFocusedWindow: true, active: true })
+      .then(([tab]) => {
+        if (!tab?.id) return;
+        const message: HighlightEl = { type: "HighlightEl", selector };
+        chrome.tabs.sendMessage(tab.id, message);
+      });
+  }, [currentNode, isOpen]);
 
   return (
     <details
@@ -78,8 +97,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
       >
         {/* description of result */}
         <p>
-          {result.help}.{" "}
-          {/* learn best practices link */}
+          {result.help}. {/* learn best practices link */}
           <a
             href={result.helpUrl}
             target="_blank"

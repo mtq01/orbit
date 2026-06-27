@@ -1,15 +1,10 @@
 import { useState } from "react";
-import type {
-  AxeResults,
-  AxeResult,
-  FilterTab,
-  ScanResponse,
-} from "../../types";
+import type { AxeResults, ScanResponse } from "../../types";
 import { SCAN_MESSAGE } from "../../types";
-import ResultCard from "../scanner/ResultCard";
 import PreScan from "./PreScan";
 import NoIssue from "./NoIssue";
 import Loader from "./Loader";
+import Results from "./Results";
 
 const Scanner = () => {
   // Uses a union type (<AxeResults | null>) to allow the value to be either a AxeResults OR a null
@@ -17,30 +12,6 @@ const Scanner = () => {
 
   // null until something goes wrong, then it becomes a string message. value can be a string or null
   const [error, setError] = useState<string | null>(null);
-
-  //This one is for filtering through our tabs
-  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
-  const tabs: FilterTab[] = ["all", "critical", "serious", "moderate"];
-  let filteredResults: AxeResult[];
-
-  if (!results) {
-    filteredResults = [];
-  } else if (activeFilter === "all") {
-    filteredResults = results.violations.sort(
-      (a, b) => tabs.indexOf(a.impact) - tabs.indexOf(b.impact),
-    );
-  } else {
-    filteredResults = results.violations.filter(
-      (v) => v.impact === activeFilter,
-    );
-  }
-
-  //helper function to show the impact number on each tabs
-  const getCount = (tab: string) => {
-    if (!results) return 0;
-    if (tab === "all") return results.violations.length;
-    return results.violations.filter((v) => v.impact === tab).length;
-  };
 
   // true while axe-core is running, false otherwise
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -120,45 +91,7 @@ const Scanner = () => {
       results.violations.length === 0 ? (
         <NoIssue onScan={handleScan} />
       ) : (
-
-        // move this section to a component on next update. cleans up codebase.
-        <>
-          <div className="flex justify-between items-center mx-3 mt-4">
-            <h1 className="text-3xl font-bold">Scan Complete</h1>
-            <button
-              className="bg-orbit-white hover:bg-orbit-light-blue cursor-pointer hover:text-orbit-white border rounded-sm px-2"
-              onClick={handleScan}
-              disabled={isLoading}
-            >
-              {isLoading ? "Scanning..." : "Re-Scan"}
-            </button>
-          </div>
-          <p className="mx-3">{results.violations.length} elements to review</p>
-          <div
-            className="flex space-x-2 mx-3 pt-8 pb-1"
-            role="tablist"
-            aria-label="Filter by impact"
-          >
-            {tabs.map((tab) => (
-              <button
-                className={`${activeFilter === tab ? "bg-orbit-blue border cursor-pointer text-orbit-white rounded-sm px-2" : "bg-orbit-white cursor-pointer hover:bg-orbit-light-blue border hover:text-orbit-white rounded-sm px-2"}`}
-                key={tab}
-                role="tab"
-                aria-selected={activeFilter === tab}
-                onClick={() => setActiveFilter(tab)}
-              >
-                {tab} ({getCount(tab)})
-              </button>
-            ))}
-          </div>
-
-          {/* Scan Results: list of result cards */}
-          <section aria-label="Scan Results">
-            {filteredResults.map((result) => (
-              <ResultCard key={result.id} result={result} />
-            ))}
-          </section>
-        </>
+        <Results results={results} onRescan={handleScan} />
       )}
     </section>
   );

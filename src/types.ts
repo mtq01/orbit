@@ -2,7 +2,7 @@ import type { NodeResult } from "axe-core";
 
 // TYPE: a value that can only be one of these exact strings. nothing else is allowed.
 // if you typo "scaner" anywhere in the app, TypeScript catches it before it runs.
-export type Tab = "scanner" | "tools" | "colors" | "checklist"; 
+export type Tab = "scanner" | "tools" | "colors" | "checklist";
 export type FilterTab = "all" | "critical" | "serious" | "moderate";
 
 // INTERFACE: describes the shape of an object. every AxeResult must have all these properties.
@@ -24,6 +24,11 @@ export interface AxeResults {
 }
 export type ScanMessage = {
   type: "RUN_SCAN";
+};
+
+export type HighlightEl = {
+  type: "HighlightEl";
+  selector: string;
 };
 
 export type ScanResponse = {
