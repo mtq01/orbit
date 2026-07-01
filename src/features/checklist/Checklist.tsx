@@ -31,7 +31,9 @@ const Checklist = () => {
     }
   };
 
-
+  // total number of checklist items across all categories
+  // flatMap converts the 'checklistData' array of arrays and flattens them into a SINGLE array for easy mapping. Length counts everytying in that array
+  const totalItems = checklistData.flatMap((category) => category.items).length;
 
   return <div>Checklist</div>;
 };
