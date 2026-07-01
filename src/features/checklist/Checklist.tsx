@@ -40,7 +40,13 @@ const Checklist = () => {
     (value) => value === true,
   ).length;
 
-
+  // when user clicks "reset all" btn: reset the setChecked to an empty object and delete the previous orbit-checklist from local
+  const resetChecklist = () => {
+    // wipe the checked state back to empty
+    setChecked({});
+    // delete the saved data from localStorage
+    localStorage.removeItem("orbit-checklist");
+  };
   return <div>Checklist</div>;
 };
 
