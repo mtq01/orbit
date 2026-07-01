@@ -35,6 +35,12 @@ const Checklist = () => {
   // flatMap converts the 'checklistData' array of arrays and flattens them into a SINGLE array for easy mapping. Length counts everytying in that array
   const totalItems = checklistData.flatMap((category) => category.items).length;
 
+  // checks boolean value of ALL checklist items. filters for the items with a value of TRUE. counts how many TRUE checkbox items there are.
+  const checkedCount = Object.values(checked).filter(
+    (value) => value === true,
+  ).length;
+
+
   return <div>Checklist</div>;
 };
 
