@@ -9,7 +9,7 @@
     "default_path": "index.html"
   },
   "action": {
-    "default_icon": "icons.svg"
+    "default_icon": "saturn.svg"
   },
   "background": {
     "service_worker": "background.js"
