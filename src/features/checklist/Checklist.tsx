@@ -19,6 +19,18 @@ const Checklist = () => {
     localStorage.setItem("orbit-checklist", JSON.stringify(checked));
   }, [checked]);
 
+  // toggles a single checklist item between checked and unchecked
+  const toggleItem = (id: string) => {
+    // copy the current checked object and flip the value for the clicked item
+    if (checked[id]) {
+      // if it was true, make it false
+      setChecked({ ...checked, [id]: false });
+    } else {
+      // if it was false or didnt exist yet, make it true
+      setChecked({ ...checked, [id]: true });
+    }
+  };
+
 
 
   return <div>Checklist</div>;
