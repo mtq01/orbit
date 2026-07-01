@@ -9,11 +9,21 @@ type ResultProps = {
 
 const Results = ({ results, onRescan }: ResultProps) => {
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? null : id));
+  };
+
+  const handleFilterChange = (tab: FilterTab) => {
+    setActiveFilter(tab);
+    setOpenId(null);
+  };
   const tabs: FilterTab[] = ["all", "critical", "serious", "moderate"];
   let filteredResults: AxeResult[];
 
   if (activeFilter === "all") {
-    filteredResults = results.violations.sort(
+    filteredResults = [...results.violations].sort(
       (a, b) => tabs.indexOf(a.impact) - tabs.indexOf(b.impact),
     );
   } else {
@@ -30,42 +40,67 @@ const Results = ({ results, onRescan }: ResultProps) => {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center mx-3 mt-4">
-        <h1 className="text-3xl font-bold">Scan Complete</h1>
-        <button
-          className="bg-orbit-white hover:bg-orbit-light-blue cursor-pointer hover:text-orbit-white border rounded-sm px-2"
-          onClick={onRescan}
-        >
-          Re-Scan
-        </button>
+    <div className="flex flex-col gap- h-full overflow-y-auto px-6 max-w-xl mx-auto">
+      <div className=" my-10">
+        <div className="flex justify-between items-center ">
+          <h1 className="text-3xl font-semibold tracking-tighter ">
+            Scan Complete
+          </h1>
+          <button
+            className=" cursor-pointer bg-orbit-blue text-orbit-white border rounded-lg o px-2 "
+            onClick={onRescan}
+          >
+            <span className="text-orbit-white flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>{" "}
+              Re-Scan
+            </span>
+          </button>
+        </div>
+        <p className="text-orbit-muted">
+          {results.violations.length} elements to review
+        </p>
       </div>
-      <p className="mx-3">{results.violations.length} elements to review</p>
       <div
-        className="flex space-x-2 mx-3 pt-8 pb-1"
+        className="flex gap-2 mb-6"
         role="tablist"
         aria-label="Filter by impact"
       >
         {tabs.map((tab) => (
           <button
-            className={`${activeFilter === tab ? "bg-orbit-blue border cursor-pointer text-orbit-white rounded-sm px-2" : "bg-orbit-white cursor-pointer hover:bg-orbit-light-blue border hover:text-orbit-white rounded-sm px-2"}`}
+            className={`border cursor-pointer rounded-md capitalize tracking-tight px-3  ${activeFilter === tab ? "bg-orbit-blue text-orbit-white" : "bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white "}`}
             key={tab}
             role="tab"
             aria-selected={activeFilter === tab}
-            onClick={() => setActiveFilter(tab)}
+            onClick={() => handleFilterChange(tab)}
           >
             {tab} ({getCount(tab)})
           </button>
         ))}
       </div>
-
       {/* Scan Results: list of result cards */}
       <section aria-label="Scan Results">
         {filteredResults.map((result) => (
-          <ResultCard key={result.id} result={result} />
+          <ResultCard
+            key={result.id}
+            result={result}
+            isOpen={openId === result.id}
+            onToggle={handleToggle}
+          />
         ))}
       </section>
-    </>
+    </div>
   );
 };
 
