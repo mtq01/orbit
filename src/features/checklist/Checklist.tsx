@@ -14,6 +14,11 @@ const Checklist = () => {
     }
   });
 
+  // every time checked changes, save the updated state to localStorage
+  useEffect(() => {
+    localStorage.setItem("orbit-checklist", JSON.stringify(checked));
+  }, [checked]);
+
 
 
   return <div>Checklist</div>;
