@@ -47,7 +47,40 @@ const Checklist = () => {
     // delete the saved data from localStorage
     localStorage.removeItem("orbit-checklist");
   };
-  return <div>Checklist</div>;
+
+  return (
+    <>
+      <p className="font-bold">Checklist</p>
+      <section>
+        <div>
+          <p>
+            {checkedCount} of {totalItems} completed
+          </p>
+        </div>
+        <progress max={totalItems} value={checkedCount}>
+          {checkedCount}
+        </progress>
+      </section>
+
+      {/* checkbox categories */}
+      <section>
+        {/* checkbox items */}
+        <details>
+          <summary>Keyboard Navigation</summary>
+          <ul>
+            <li>
+              <input
+                type="checkbox"
+                name="keyboard-nav-1"
+                id="keyboard-nav-1"
+              />
+              CheckboxItem
+            </li>
+          </ul>
+        </details>
+      </section>
+    </>
+  );
 };
 
 export default Checklist;
