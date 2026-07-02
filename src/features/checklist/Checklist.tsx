@@ -59,6 +59,8 @@ const Checklist = () => {
   const resetChecklist = () => {
     // wipe the checked state back to empty
     setChecked({});
+    // collapse all accordions
+    setOpenCategories({});
     // delete the saved data from localStorage
     localStorage.removeItem("orbit-checklist");
   };
@@ -104,6 +106,7 @@ const Checklist = () => {
           return (
             <details
               key={category.id}
+              open={openCategories[category.id] ?? false}
               onToggle={(event) =>
                 categoryToggle(category.id, event.currentTarget.open)
               }
