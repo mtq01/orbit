@@ -65,20 +65,40 @@ const Checklist = () => {
       {/* checkbox categories */}
       <section>
         {/* checkbox items */}
-        <details>
-          <summary>Keyboard Navigation</summary>
-          <ul>
-            <li>
-              <input
-                type="checkbox"
-                name="keyboard-nav-1"
-                id="keyboard-nav-1"
-              />
-              CheckboxItem
-            </li>
-          </ul>
-        </details>
+        {checklistData.map((category) => (
+          <details key={category.id} className="border-t border-b py-3 my-1">
+            <summary className="flex justify-between px-3">
+              <p>{category.label}</p>
+              <p>
+                1 / 4 <span>Open/Close</span>
+              </p>
+            </summary>
+            <ul>
+              {category.items.map((item) => (
+                <li className="flex items-start justify-start gap-2 py-2 px-2 m-2">
+                  <input
+                    type="checkbox"
+                    checked={checked[item.id] ?? false}
+                    onChange={() => toggleItem(item.id)}
+                    className="mt-1 shrink-0 w-4 h-4 cursor-pointer accent-orbit-blue"
+                  />
+                  <label htmlFor={item.id} className="cursor-pointer">
+                    {item.label}{" "}
+                    <a href={item.wcagUrl} target="_blank">
+                      {item.wcag}
+                    </a>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
       </section>
+
+        {/* reset checklist */}
+      <button onClick={resetChecklist} className="cursor-pointer">
+        Reset All
+      </button>
     </>
   );
 };
