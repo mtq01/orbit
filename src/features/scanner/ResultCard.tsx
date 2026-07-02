@@ -1,5 +1,7 @@
 import type { AxeResult } from "../../types";
-import { useState } from "react";
+import type { HighlightEl } from "../../types";
+import { useEffect, useState } from "react";
+import { html as beautify } from "js-beautify";
 
 // icons
 import arrowLeft from "../../assets/icons/arrow-left.svg";
@@ -9,38 +11,73 @@ import chevronDown from "../../assets/icons/chevrons-down.svg";
 
 // passes AxeResult down to ResultCard below as a prop.
 interface ResultCardProps {
-  // displays a single result
   result: AxeResult;
+  isOpen: boolean;
+  onToggle: (id: string) => void;
 }
 
 // axe-core has 4 impact levels (keys). this obj contains their styles (tailwind)... might not need this anymore, not sure yet
 const impactStyles = {
-  critical: { pill: "bg-red-200 text-black-800" },
-  serious: { pill: "bg-orange-200 text-black-800" },
-  moderate: { pill: "bg-yellow-200 text-black-800" },
-  minor: { pill: "bg-blue-200 text-black-800" },
+  critical: { text: "text-critical" },
+  serious: { text: "text-serious" },
+  moderate: { text: "text-moderate" },
+  minor: { text: "text-blue-500" },
 };
 
 // code section styles
 const codeStyle =
-  "block text-md text-[var(--color-orbit-white)] bg-[var(--color-orbit-blue)] px-3 py-2 rounded mb-3 break-words";
+  "block text-sm text-black bg-gray-200 px-3 py-2 rounded mb-3 break-words whitespace-pre-wrap";
 
 // accepts the result from ResultCardProps
-const ResultCard = ({ result }: ResultCardProps) => {
+const ResultCard = ({ result, isOpen, onToggle }: ResultCardProps) => {
   const styles = impactStyles[result.impact];
-  const [isOpen, setIsOpen] = useState(false);
   const [currentNode, setCurrentNode] = useState(0);
+
+  //This Highlights the element in the DOM when the user clicks on the result card or element list
+
+  // It listens for changes in current node on a render, then fires this off"
+  useEffect(() => {
+    if (
+      typeof chrome === "undefined" ||
+      !chrome.tabs?.query ||
+      !chrome.tabs?.sendMessage
+    ) {
+      return;
+    }
+
+    if (!isOpen) {
+      return;
+    }
+
+    const selector = result.nodes[currentNode].target[0];
+    if (typeof selector !== "string") return;
+
+    chrome.tabs
+      .query({ lastFocusedWindow: true, active: true })
+      .then(([tab]) => {
+        if (!tab?.id) return;
+        const message: HighlightEl = { type: "HighlightEl", selector };
+        chrome.tabs.sendMessage(tab.id, message);
+      });
+  }, [currentNode, isOpen]);
 
   return (
     <details
-      onToggle={(event) => setIsOpen((event.target as HTMLDetailsElement).open)}
-      className="border border-gray-200 rounded-lg m-3"
+      name="orbit-results"
+      onToggle={(e) => {
+        if ((e.currentTarget as HTMLDetailsElement).open) onToggle(result.id);
+      }}
+      className="border border-gray-200 rounded-lg mb-4"
     >
       {/* summary is the built-in label for the details element. It does not need a heading */}
-      <summary className="px-4 py-3 border-b border-gray-200 cursor-pointer list-none hover:bg-gray-50 focus-visible:outline-orbit-blue">
-        <div className="flex items-center justify-between">
+      <summary
+        className={`px-4 py-3 cursor-pointer list-none hover:bg-gray-50 focus-visible:outline-orbit-blue ${isOpen ? "border-b border-gray-200" : ""}`}
+      >
+        <div className="flex items-center justify-between pb-2">
           {/* use span here bcuz no header is needed & the result.id is already descriptive. */}
-          <span className="text-lg font-bold">{result.id}</span>
+          <span className="text-lg font-bold first-letter:uppercase ">
+            {result.id}
+          </span>
           {isOpen ? (
             <img
               src={chevronUp}
@@ -59,15 +96,15 @@ const ResultCard = ({ result }: ResultCardProps) => {
             />
           )}
         </div>
-        <span
-          className={`${styles.pill} rounded-md text-sm font-bold px-2 py-1 capitalize`}
-        >
-          {result.impact}
-        </span>
-        <span className="text-sm opacity-80">
-          {" "}
-          · {result.nodes.length} element
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`${styles.text} text-md font-semibold capitalize`}>
+            {result.impact}
+          </span>
+          <span className="text-orbit-blue text-xl leading-none">•</span>
+          <span className="text-sm text-orbit-muted">
+            {result.nodes.length} element
+          </span>
+        </div>
       </summary>
 
       {/* sections need an aria label, this one is dynamic based on the result.id */}
@@ -78,8 +115,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
       >
         {/* description of result */}
         <p>
-          {result.help}.{" "}
-          {/* learn best practices link */}
+          {result.help}. {/* learn best practices link */}
           <a
             href={result.helpUrl}
             target="_blank"
@@ -145,7 +181,7 @@ const ResultCard = ({ result }: ResultCardProps) => {
               )}
             </div>
           </div>
-          <p className="font-bold text-lg">How to Fix</p>
+          <p className="font-bold text-lg">How to Fix:</p>
 
           <div>
             <p>Selector</p>
@@ -156,7 +192,9 @@ const ResultCard = ({ result }: ResultCardProps) => {
 
           <div>
             <p>HTML</p>
-            <code className={codeStyle}>{result.nodes[currentNode].html}</code>
+            <code className={codeStyle}>
+              {beautify(result.nodes[currentNode].html, { indent_size: 2 })}
+            </code>
           </div>
         </div>
       </section>

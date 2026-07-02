@@ -20,8 +20,11 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
   return (
     <nav aria-label="Main Navigation">
       {/* role tells screen readers this is a group of tabs */}
-      <div role="tablist" aria-label="Orbit Tab Sections"></div>
-
+      <div
+        role="tablist"
+        aria-label="Orbit Tab Sections"
+        className="flex gap-1 px-4 py-2 border-b"
+      >
       <button
         // each btn is announced as a tab, not just a button
         role="tab"
@@ -74,6 +77,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
       >
         Checklist
       </button>
+      </div>
     </nav>
   );
 };

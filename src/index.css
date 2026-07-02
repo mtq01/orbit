@@ -12,10 +12,10 @@
   --color-orbit-blue: #060d20;
   --color-orbit-light-blue: #122762;
   --color-orbit-white: #fcf8f8;
-  --color-orbit-muted: #505461;
-  --color-critical: #bd0000;
-  --color-serious: #e48614;
-  --color-moderate: #5842e4;
+  --color-orbit-muted: #060d20b3;
+  --color-critical: #a30000;
+  --color-serious: #a34700;
+  --color-moderate: #4530c8;
   --font-code: "Fira Code", monospace;
 
   --font-body: "Atkinson Hyperlegible", sans-serif;
@@ -38,6 +38,10 @@
 @layer base {
   #root {
     font-size: 16px;
+  }
+
+  * {
+    scrollbar-width: thin;
   }
 
   body {
