@@ -21,7 +21,7 @@ const impactStyles = {
   critical: { text: "text-critical" },
   serious: { text: "text-serious" },
   moderate: { text: "text-moderate" },
-  minor: { text: "text-blue-500" },
+  minor: { text: "text-minor" },
 };
 
 // code section styles
@@ -64,14 +64,16 @@ const ResultCard = ({ result, isOpen, onToggle }: ResultCardProps) => {
   return (
     <details
       name="orbit-results"
-      onToggle={(e) => {
-        if ((e.currentTarget as HTMLDetailsElement).open) onToggle(result.id);
-      }}
+      open={isOpen}
       className="border border-gray-200 rounded-lg mb-4"
     >
       {/* summary is the built-in label for the details element. It does not need a heading */}
       <summary
         className={`px-4 py-3 cursor-pointer list-none hover:bg-gray-50 focus-visible:outline-orbit-blue ${isOpen ? "border-b border-gray-200" : ""}`}
+        onClick={(e) => {
+          e.preventDefault();
+          onToggle(result.id);
+        }}
       >
         <div className="flex items-center justify-between pb-2">
           {/* use span here bcuz no header is needed & the result.id is already descriptive. */}
