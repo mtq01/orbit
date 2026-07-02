@@ -40,14 +40,14 @@ const Results = ({ results, onRescan }: ResultProps) => {
   };
 
   return (
-    <div className="flex flex-col gap- h-full overflow-y-auto px-6 max-w-xl mx-auto">
+    <div className="flex flex-col h-full overflow-y-scroll px-4 max-w-xl mx-auto">
       <div className=" my-10">
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center gap-3">
           <h1 className="text-3xl font-semibold tracking-tighter ">
             Scan Complete
           </h1>
           <button
-            className=" cursor-pointer bg-orbit-blue text-orbit-white border rounded-lg o px-2 "
+            className="cursor-pointer bg-orbit-blue text-orbit-white border rounded-lg px-2 py-1 whitespace-nowrap shrink-0"
             onClick={onRescan}
           >
             <span className="text-orbit-white flex items-center gap-2">
@@ -73,13 +73,13 @@ const Results = ({ results, onRescan }: ResultProps) => {
         </p>
       </div>
       <div
-        className="flex gap-2 mb-6"
+        className="flex gap-1.5 mb-6 items-center flex-wrap"
         role="tablist"
         aria-label="Filter by impact"
       >
         {tabs.map((tab) => (
           <button
-            className={`border cursor-pointer rounded-md capitalize tracking-tight px-3  ${activeFilter === tab ? "bg-orbit-blue text-orbit-white" : "bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white "}`}
+            className={`border cursor-pointer rounded-md capitalize tracking-tight px-2 py-1 text-sm whitespace-nowrap ${activeFilter === tab ? "bg-orbit-blue text-orbit-white" : "bg-orbit-white hover:bg-orbit-light-blue hover:text-orbit-white "}`}
             key={tab}
             role="tab"
             aria-selected={activeFilter === tab}

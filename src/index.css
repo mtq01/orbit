@@ -40,6 +40,10 @@
     font-size: 16px;
   }
 
+  * {
+    scrollbar-width: thin;
+  }
+
   body {
     font-family: var(--font-body);
     background-color: var(--color-orbit-white);

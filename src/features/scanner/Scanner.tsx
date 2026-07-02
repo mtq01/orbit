@@ -80,7 +80,7 @@ const Scanner = () => {
   };
 
   return (
-    <section aria-label="Accessibility Scanner" className="h-full">
+    <section aria-label="Accessibility Scanner" className="h-full ">
       {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
 
       {isLoading ? (
