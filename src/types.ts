@@ -22,6 +22,7 @@ export interface AxeResults {
   // passes: AxeResult[];
   // incomplete: AxeResult[];
 }
+//Scan Tab
 export type ScanMessage = {
   type: "RUN_SCAN";
 };
@@ -39,4 +40,25 @@ export type ScanResponse = {
 // we define it once here so we never have to type { type: "RUN_SCAN" } by hand and risk a typo.
 export const SCAN_MESSAGE: ScanMessage = {
   type: "RUN_SCAN",
+};
+
+//Tool Tab
+export type HighlightMessage = {
+  type: "RUN_HIGHLIGHT";
+};
+
+export type HighlightResponse = {
+  success: boolean;
+};
+
+export const HIGHLIGHT_MESSAGE: HighlightMessage = {
+  type: "RUN_HIGHLIGHT"
+}
+
+export type HighContrastMessage = {
+  type: "RUN_HIGH_CONTRAST";
+};
+
+export const HIGH_CONTRAST_MESSAGE: HighContrastMessage = {
+  type: "RUN_HIGH_CONTRAST"
 };
