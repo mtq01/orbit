@@ -69,3 +69,15 @@
     outline-offset: 2px;
   }
 }
+
+/* disable all animations & transitions if thats what the user prefers (important for accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}

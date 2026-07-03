@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { checklistData } from "../checklist/checklistData";
 import chevronUp from "../../assets/icons/chevrons-up.svg";
 import chevronDown from "../../assets/icons/chevrons-down.svg";
+import externalLink from "../../assets/icons/external-link.svg";
 
 // function 1: component
 const Checklist = () => {
@@ -153,9 +154,15 @@ const Checklist = () => {
                         checked[item.id] ? "line-through" : ""
                       }`}
                     >
-                      {item.label}{" "}
-                      <a href={item.wcagUrl} target="_blank" rel="noreferrer">
+                      {item.label}
+                      <a
+                        href={item.wcagUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex gap-1 items-center text-xs w-fit px-1 py-0.5 rounded-sm text-blue-600 underline hover:no-underline"
+                      >
                         {item.wcag}
+                        <img className="w-3 h-3" src={externalLink} alt="" />
                       </a>
                     </label>
                   </li>
