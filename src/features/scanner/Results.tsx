@@ -95,6 +95,7 @@ const Results = ({ results, onRescan }: ResultProps) => {
           <ResultCard
             key={result.id}
             result={result}
+            // only one result card can be open at a time, so we check if the current result.id matches the one we clicked on
             isOpen={openId === result.id}
             onToggle={handleToggle}
           />
