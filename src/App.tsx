@@ -44,7 +44,7 @@ const App = () => {
         role="tabpanel"
         // points back to the active tab btn by its ID (used to announce the panels name, ex "Scanner Tab Panel")
         aria-labelledby={`tab-${activeTab}`}
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-scroll"
       >
         {/* && = only render this component if the condition on the left is true */}
         {activeTab === "scanner" && <Scanner />}
