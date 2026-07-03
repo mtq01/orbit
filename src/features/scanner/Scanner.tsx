@@ -55,6 +55,8 @@ const Scanner = () => {
       files: ["content.js"],
     });
 
+    chrome.tabs.connect(tab.id, { name: "orbit-panel" });
+
     // the side panel is a chrome-extension:// page with full Chrome API access,
     // so it can call tabs.sendMessage directly.
     // SCAN_MESSAGE is a typed constant from types.ts so we never typo the message type.
