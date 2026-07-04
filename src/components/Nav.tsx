@@ -23,7 +23,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
       <div
         role="tablist"
         aria-label="Orbit Tab Sections"
-        className="flex gap-1 px-4 py-2 border-b"
+        className="flex gap-1 px-4 py-2 border-b justify-between"
       >
       <button
         // each btn is announced as a tab, not just a button
@@ -37,7 +37,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
         // only the active tab is in the natural tab order, arrow keys do the rest
         tabIndex={activeTab === "scanner" ? 0 : -1}
         onClick={() => onTabClick("scanner")}
-        className={activeTab === "scanner" ? "active" : ""}
+        className={activeTab === "scanner" ? "active" : "nav-link"}
       >
         Scan
       </button>
@@ -49,7 +49,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
         id="tab-tools"
         tabIndex={activeTab === "tools" ? 0 : -1}
         onClick={() => onTabClick("tools")}
-        className={activeTab === "tools" ? "active" : ""}
+        className={activeTab === "tools" ? "active" : "nav-link"}
       >
         Tools
       </button>
@@ -61,7 +61,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
         id="tab-colors"
         tabIndex={activeTab === "colors" ? 0 : -1}
         onClick={() => onTabClick("colors")}
-        className={activeTab === "colors" ? "active" : ""}
+        className={activeTab === "colors" ? "active" : "nav-link"}
       >
         Colors
       </button>
@@ -73,7 +73,7 @@ const Nav = ({ activeTab, onTabClick }: NavProps) => {
         id="tab-checklist"
         tabIndex={activeTab === "checklist" ? 0 : -1}
         onClick={() => onTabClick("checklist")}
-        className={activeTab === "checklist" ? "active" : ""}
+        className={activeTab === "checklist" ? "active" : "nav-link"}
       >
         Checklist
       </button>
