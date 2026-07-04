@@ -10,6 +10,7 @@ const focusable =
 _sender in TS means: "this param exists but im not using it."
 */
 let lastHighlighted: HTMLElement | null = null;
+let pageTint: HTMLElement | null = null;
 
 const clearHighlight = () => {
   if (lastHighlighted) {
@@ -17,6 +18,16 @@ const clearHighlight = () => {
     lastHighlighted.style.outlineOffset = "";
     lastHighlighted = null;
   }
+  // remove() is a built in method that removes elemts from the dom, we need it ehre since we used createElement
+  pageTint?.remove();
+  pageTint = null;
+};
+const showPageTint = () => {
+  if (pageTint) return;
+  pageTint = document.createElement("div");
+  pageTint.style.cssText =
+    "position: fixed; inset: 0; background: #2116f533; z-index: 999999;";
+  document.body.appendChild(pageTint);
 };
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -35,17 +46,19 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
 
   if (message.type === "HighlightEl") {
-    if (lastHighlighted) {
-      clearHighlight();
-    }
+    clearHighlight();
 
-    const el = document.querySelector(message.selector) as HTMLElement | null;
+    if (message.selector === "html") {
+      showPageTint();
+    } else {
+      const el = document.querySelector(message.selector) as HTMLElement | null;
 
-    if (el) {
-      el.style.outline = "4px solid #2116f5";
-      el.style.outlineOffset = "4px";
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      lastHighlighted = el;
+      if (el) {
+        el.style.outline = "4px solid #2116f5";
+        el.style.outlineOffset = "4px";
+        el.scrollIntoView({ behavior: "smooth" });
+        lastHighlighted = el;
+      }
     }
   }
 
