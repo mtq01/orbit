@@ -11,6 +11,7 @@ _sender in TS means: "this param exists but im not using it."
 */
 let lastHighlighted: HTMLElement | null = null;
 let pageTint: HTMLElement | null = null;
+let numberLabels: HTMLElement[] = []; // tracks the number labels added by RUN_HIGHLIGHT
 
 const clearHighlight = () => {
   if (lastHighlighted) {
@@ -28,6 +29,17 @@ const showPageTint = () => {
   pageTint.style.cssText =
     "position: fixed; inset: 0; background: #2116f533; z-index: 999999;";
   document.body.appendChild(pageTint);
+};
+
+// removes the numbered labels + blue outlines added by RUN_HIGHLIGHT
+const clearHighlightNumbers = () => {
+  numberLabels.forEach((label) => label.remove());
+  numberLabels = [];
+ 
+  const focusableElements = document.querySelectorAll(focusable);
+  focusableElements.forEach((element) => {
+    (element as HTMLElement).style.outline = "";
+  });
 };
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -66,22 +78,48 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const focusableElements = document.querySelectorAll(focusable);
     focusableElements.forEach((element, index) => {
       (element as HTMLElement).style.outline = "2px solid blue";
-
+ 
       // add number label here
       const label = document.createElement("span");
       label.textContent = String(index + 1);
       label.style.cssText =
         "background: blue; color: white; padding: 2px 6px; border-radius: 50%; font-size: 12px; position: absolute; z-index: 9999;";
       element.insertAdjacentElement("beforebegin", label);
+      numberLabels.push(label);
     });
+    sendResponse({ success: true, count: focusableElements.length });
+    return true;
+  }
+ 
+  if (message.type === "CLEAR_HIGHLIGHT_NUMBERS") {
+    clearHighlightNumbers();
     sendResponse({ success: true });
     return true;
   }
-  if (message.type === "RUN_HIGH_CONTRAST") {
-    document.body.style.filter = "invert(1) hue-rotate(180deg)";
-    sendResponse({ success: true });
-    return true;
+ 
+if (message.type === "RUN_HIGH_CONTRAST") {
+  const existing = document.getElementById("orbit-high-contrast");
+  if (message.on) {
+    if (!existing) {
+      const style = document.createElement("style");
+      style.id = "orbit-high-contrast";
+      style.textContent = `
+        * {
+          background-color: #000000 !important;
+          color: #ffffff !important;
+          border-color: #ffffff !important;
+        }
+        a { color: #ffff00 !important; }
+        img, video { filter: invert(1) !important; }
+      `;
+      document.head.appendChild(style);
+    }
+  } else {
+    existing?.remove();
   }
+  sendResponse({ success: true });
+  return true;
+}
 });
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
