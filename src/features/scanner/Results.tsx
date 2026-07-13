@@ -40,7 +40,7 @@ const Results = ({ results, onRescan }: ResultProps) => {
   };
 
   return (
-    <div className="flex flex-col h-full overflow-y-scroll px-4 max-w-xl mx-auto">
+    <div className="flex flex-col h-full px-4 max-w-xl mx-auto">
       <div className=" my-10">
         <div className="flex justify-between items-center gap-3">
           <h1 className="text-3xl font-semibold tracking-tighter ">

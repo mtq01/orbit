@@ -35,7 +35,7 @@ const showPageTint = () => {
 const clearHighlightNumbers = () => {
   numberLabels.forEach((label) => label.remove());
   numberLabels = [];
- 
+
   const focusableElements = document.querySelectorAll(focusable);
   focusableElements.forEach((element) => {
     (element as HTMLElement).style.outline = "";
@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       if (el) {
         el.style.outline = "4px solid #2116f5";
         el.style.outlineOffset = "4px";
-        el.scrollIntoView({ behavior: "smooth" });
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
         lastHighlighted = el;
       }
     }
@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     const focusableElements = document.querySelectorAll(focusable);
     focusableElements.forEach((element, index) => {
       (element as HTMLElement).style.outline = "2px solid blue";
- 
+
       // add number label here
       const label = document.createElement("span");
       label.textContent = String(index + 1);
@@ -90,20 +90,20 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     sendResponse({ success: true, count: focusableElements.length });
     return true;
   }
- 
+
   if (message.type === "CLEAR_HIGHLIGHT_NUMBERS") {
     clearHighlightNumbers();
     sendResponse({ success: true });
     return true;
   }
- 
-if (message.type === "RUN_HIGH_CONTRAST") {
-  const existing = document.getElementById("orbit-high-contrast");
-  if (message.on) {
-    if (!existing) {
-      const style = document.createElement("style");
-      style.id = "orbit-high-contrast";
-      style.textContent = `
+
+  if (message.type === "RUN_HIGH_CONTRAST") {
+    const existing = document.getElementById("orbit-high-contrast");
+    if (message.on) {
+      if (!existing) {
+        const style = document.createElement("style");
+        style.id = "orbit-high-contrast";
+        style.textContent = `
         * {
           background-color: #000000 !important;
           color: #ffffff !important;
@@ -112,14 +112,14 @@ if (message.type === "RUN_HIGH_CONTRAST") {
         a { color: #ffff00 !important; }
         img, video { filter: invert(1) !important; }
       `;
-      document.head.appendChild(style);
+        document.head.appendChild(style);
+      }
+    } else {
+      existing?.remove();
     }
-  } else {
-    existing?.remove();
+    sendResponse({ success: true });
+    return true;
   }
-  sendResponse({ success: true });
-  return true;
-}
 });
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
