@@ -22,6 +22,7 @@ const Tools = () => {
       target: { tabId: tab.id },
       files: ["content.js"],
     });
+    chrome.tabs.connect(tab.id, { name: "orbit-panel" });
     const response = (await chrome.tabs.sendMessage(
       tab.id,
       HIGHLIGHT_MESSAGE,

@@ -124,5 +124,8 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== "orbit-panel") return;
-  port.onDisconnect.addListener(clearHighlight);
+  port.onDisconnect.addListener(() => {
+    clearHighlight();
+    clearHighlightNumbers();
+  });
 });
