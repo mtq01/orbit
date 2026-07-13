@@ -31,6 +31,11 @@ const showPageTint = () => {
   document.body.appendChild(pageTint);
 };
 
+const clearContrast = () => {
+  const existing = document.getElementById("orbit-high-contrast");
+  existing?.remove();
+};
+
 // removes the numbered labels + blue outlines added by RUN_HIGHLIGHT
 const clearHighlightNumbers = () => {
   numberLabels.forEach((label) => label.remove());
@@ -124,5 +129,9 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== "orbit-panel") return;
-  port.onDisconnect.addListener(clearHighlight);
+  port.onDisconnect.addListener(() => {
+    clearHighlight();
+    clearHighlightNumbers();
+    clearContrast();
+  });
 });
