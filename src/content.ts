@@ -31,6 +31,11 @@ const showPageTint = () => {
   document.body.appendChild(pageTint);
 };
 
+const clearContrast = () => {
+  const existing = document.getElementById("orbit-high-contrast");
+  existing?.remove();
+};
+
 // removes the numbered labels + blue outlines added by RUN_HIGHLIGHT
 const clearHighlightNumbers = () => {
   numberLabels.forEach((label) => label.remove());
@@ -127,5 +132,6 @@ chrome.runtime.onConnect.addListener((port) => {
   port.onDisconnect.addListener(() => {
     clearHighlight();
     clearHighlightNumbers();
+    clearContrast();
   });
 });
