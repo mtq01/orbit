@@ -9,7 +9,17 @@
     "default_path": "index.html"
   },
   "action": {
-    "default_icon": "saturn.svg"
+    "default_icon": {
+      "16": "saturn-16.png",
+      "48": "saturn-148.png",
+      "128": "saturn-128.png"
+    },
+    "default_title": "Open Orbit"
+  },
+  "icons": {
+    "16": "saturn-16.png",
+    "48": "saturn-148.png",
+    "128": "saturn-128.png"
   },
   "background": {
     "service_worker": "background.js"
