@@ -75,24 +75,34 @@ const Tools = () => {
     <div className="flex flex-col gap-2 p-4 font-body">
       <button
         onClick={handleSeeOrder}
-        className="rounded-md bg-orbit-blue px-4 py-2 text-sm font-medium text-orbit-white hover:bg-orbit-light-blue"
+        className="flex w-full flex-col items-start gap-1 rounded-md bg-orbit-blue px-4 py-3 text-left text-orbit-white hover:bg-orbit-light-blue"
       >
-        See the Order
+        <span className="text-ml">See The Tab Order</span>
+        <span className="text-sm">
+          Number every keyboard stop and check the sequence.
+        </span>
       </button>
-
       <button
         onClick={() => {
           const next = !isHighContrastOn;
           setIsHighContrastOn(next);
           handleHighContrast(next);
         }}
-        className={`rounded-md px-4 py-2 text-sm font-medium text-orbit-white ${
+        className={`flex w-full flex-col items-start gap-1 rounded-md px-4 py-3 text-left text-orbit-white ${
           isHighContrastOn
             ? "bg-orbit-muted hover:bg-orbit-blue"
             : "bg-orbit-blue hover:bg-orbit-light-blue"
         }`}
       >
-        {isHighContrastOn ? "Turn Off High Contrast" : "Turn On High Contrast"}
+        <span className="text-ml">
+          {isHighContrastOn
+            ? "Turn Off High Contrast"
+            : "Turn On High Contrast"}
+        </span>
+        <span className="text-sm">
+          Some users rely on high contrast mode. Turn this on and verify
+          everything is still readable.
+        </span>
       </button>
     </div>
   );
