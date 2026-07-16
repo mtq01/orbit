@@ -34,7 +34,6 @@ const App = () => {
       lastFocusedWindow: true,
     });
 
-    // no active tab (or no id) - nothing to message, bail out
     if (!activeBrowserTab?.id) return;
 
     // clear highlighted stops when switching tabs
