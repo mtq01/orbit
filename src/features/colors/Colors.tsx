@@ -52,7 +52,7 @@ const Colors = () => {
             onClick={() => pickColor(onChange)}
             aria-label={`Sample ${label.toLowerCase()} color from screen`}
             title="Pick a color from your screen"
-            className="rounded-md bg-orbit-blue p-2 text-orbit-white hover:bg-orbit-light-blue"
+            className="cursor-pointer rounded-md bg-orbit-blue p-2 text-orbit-white hover:bg-orbit-light-blue"
           >
             <Pipette size={16} />
           </button>
