@@ -46,32 +46,39 @@ export const SCAN_MESSAGE: ScanMessage = {
 export type HighlightMessage = {
   type: "RUN_HIGHLIGHT";
 };
- 
+
 // carries back how many focusable stops were found
 export type HighlightResponse = {
   success: boolean;
   count?: number;
 };
- 
+
 export const HIGHLIGHT_MESSAGE: HighlightMessage = {
   type: "RUN_HIGHLIGHT",
 };
- 
+
 //Tool Tab - Clear Highlight
 export type ClearHighlightMessage = {
   type: "CLEAR_HIGHLIGHT_NUMBERS";
 };
- 
+
 export const CLEAR_HIGHLIGHT_MESSAGE: ClearHighlightMessage = {
   type: "CLEAR_HIGHLIGHT_NUMBERS",
 };
- 
+export type ClearAllMessage = {
+  type: "CLEAR_ALL";
+};
+
+export const CLEAR_ALL_MESSAGE: ClearAllMessage = {
+  type: "CLEAR_ALL",
+};
+
 //Tool Tab - High Contrast
 export type HighContrastMessage = {
-  type: "RUN_HIGH_CONTRAST"; 
+  type: "RUN_HIGH_CONTRAST";
   on: boolean;
 };
- 
+
 export type HighContrastResponse = {
   success: boolean;
 };

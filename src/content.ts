@@ -9,6 +9,7 @@ const focusable =
 
 _sender in TS means: "this param exists but im not using it."
 */
+
 let lastHighlighted: HTMLElement | null = null;
 let pageTint: HTMLElement | null = null;
 let numberLabels: HTMLElement[] = []; // tracks the number labels added by RUN_HIGHLIGHT
@@ -47,6 +48,12 @@ const clearHighlightNumbers = () => {
   });
 };
 
+const clearAll = () => {
+  clearHighlight();
+  clearHighlightNumbers();
+  clearContrast();
+};
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   // only react to msgs asking for a scan specifically.
   if (message.type === "RUN_SCAN") {
@@ -55,7 +62,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       const results = await axe.run();
       sendResponse({ success: true, results });
     };
-    /* 
+    /*
     - return true: tells chrome to wait for the async response
     - without it, chrome closes the connection before axe is finished. */
     runScan();
@@ -125,13 +132,17 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     sendResponse({ success: true });
     return true;
   }
+
+  if (message.type === "CLEAR_ALL") {
+    clearAll();
+    sendResponse({ success: true });
+    return true;
+  }
 });
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name !== "orbit-panel") return;
   port.onDisconnect.addListener(() => {
-    clearHighlight();
-    clearHighlightNumbers();
-    clearContrast();
+    clearAll();
   });
 });
