@@ -4,7 +4,7 @@ import axe from "axe-core";
 const focusable =
   "a[href], button, input, select, textarea, details, [tabindex]:not([tabindex='-1'])";
 
-  // filters out things that match the selector but can't actually be tabbed to
+// filters out things that match the selector but can't actually be tabbed to
 const isFocusable = (el: HTMLElement) => {
   if (el.hasAttribute("disabled")) return false;
   if (el.getAttribute("aria-hidden") === "true") return false;
@@ -34,9 +34,8 @@ _sender in TS means: "this param exists but im not using it."
 
 let lastHighlighted: HTMLElement | null = null;
 let pageTint: HTMLElement | null = null;
-let overlay: HTMLElement | null = null;   // one container holding every number label
-let outlined: HTMLElement[] = [];          // the exact elements we outlined
-
+let overlay: HTMLElement | null = null; // one container holding every number label
+let outlined: HTMLElement[] = []; // the exact elements we outlined
 
 const clearHighlight = () => {
   if (lastHighlighted) {
@@ -106,28 +105,28 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
 
   if (message.type === "RUN_HIGHLIGHT") {
-  clearHighlightNumbers(); // reset if it was already run
+    clearHighlightNumbers(); // reset if it was already run
 
-  overlay = document.createElement("div");
-  overlay.id = "orbit-tab-overlay";
-  overlay.style.cssText =
-    "position: absolute; top: 0; left: 0; width: 0; height: 0; z-index: 2147483647; pointer-events: none;";
-  document.body.appendChild(overlay);
+    overlay = document.createElement("div");
+    overlay.id = "orbit-tab-overlay";
+    overlay.style.cssText =
+      "position: absolute; top: 0; left: 0; width: 0; height: 0; z-index: 2147483647; pointer-events: none;";
+    document.body.appendChild(overlay);
 
-  const elements = Array.from(
-    document.querySelectorAll<HTMLElement>(focusable),
-  )
-    .filter(isFocusable)
-    .sort(byTabOrder);
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>(focusable),
+    )
+      .filter(isFocusable)
+      .sort(byTabOrder);
 
-  elements.forEach((el, index) => {
-    el.style.outline = "2px solid blue";
-    outlined.push(el);
+    elements.forEach((el, index) => {
+      el.style.outline = "2px solid blue";
+      outlined.push(el);
 
-    const rect = el.getBoundingClientRect();
-    const label = document.createElement("span");
-    label.textContent = String(index + 1);
-    label.style.cssText = `
+      const rect = el.getBoundingClientRect();
+      const label = document.createElement("span");
+      label.textContent = String(index + 1);
+      label.style.cssText = `
       position: absolute;
       left: ${rect.left + window.scrollX}px;
       top: ${rect.top + window.scrollY}px;
@@ -139,26 +138,26 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       font: 12px/1 sans-serif;
       pointer-events: none;
     `;
-    overlay!.appendChild(label);
-  });
+      overlay!.appendChild(label);
+    });
 
-  sendResponse({ success: true, count: elements.length });
-  return true;
-}
- 
+    sendResponse({ success: true, count: elements.length });
+    return true;
+  }
+
   if (message.type === "CLEAR_HIGHLIGHT_NUMBERS") {
     clearHighlightNumbers();
     sendResponse({ success: true });
     return true;
   }
- 
-if (message.type === "RUN_HIGH_CONTRAST") {
-  const existing = document.getElementById("orbit-high-contrast");
-  if (message.on) {
-    if (!existing) {
-      const style = document.createElement("style");
-      style.id = "orbit-high-contrast";
-      style.textContent = `
+
+  if (message.type === "RUN_HIGH_CONTRAST") {
+    const existing = document.getElementById("orbit-high-contrast");
+    if (message.on) {
+      if (!existing) {
+        const style = document.createElement("style");
+        style.id = "orbit-high-contrast";
+        style.textContent = `
         * {
           background-color: #000000 !important;
           color: #ffffff !important;
@@ -167,21 +166,21 @@ if (message.type === "RUN_HIGH_CONTRAST") {
         a { color: #ffff00 !important; }
         img, video { filter: invert(1) !important; }
       `;
-      document.head.appendChild(style);
+        document.head.appendChild(style);
+      }
+    } else {
+      existing?.remove();
     }
-  } else {
-    existing?.remove();
+
+    sendResponse({ success: true });
+    return true;
   }
-    
-  sendResponse({ success: true });
-  return true;
-}
 
   if (message.type === "CLEAR_ALL") {
     clearAll();
     sendResponse({ success: true });
     return true;
-
+  }
 });
 //good read: https://dev.to/latz/chrome-side-panel-simulate-close-event-354h
 chrome.runtime.onConnect.addListener((port) => {
