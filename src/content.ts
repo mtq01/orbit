@@ -172,7 +172,7 @@ if (message.type === "RUN_HIGH_CONTRAST") {
   } else {
     existing?.remove();
   }
-    }
+    
   sendResponse({ success: true });
   return true;
 }
