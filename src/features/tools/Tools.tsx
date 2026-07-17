@@ -75,7 +75,7 @@ const Tools = () => {
     <div className="flex flex-col gap-2 p-4 font-body">
       <button
         onClick={handleSeeOrder}
-        className="flex w-full flex-col items-start gap-1 rounded-md bg-orbit-blue px-4 py-3 text-left text-orbit-white hover:bg-orbit-light-blue"
+        className=" cursor-pointer flex w-full flex-col items-start gap-1 rounded-md bg-orbit-blue px-4 py-3 text-left text-orbit-white hover:bg-orbit-light-blue"
       >
         <span className="text-ml">See The Tab Order</span>
         <span className="text-sm">
@@ -88,7 +88,7 @@ const Tools = () => {
           setIsHighContrastOn(next);
           handleHighContrast(next);
         }}
-        className={`flex w-full flex-col items-start gap-1 rounded-md px-4 py-3 text-left text-orbit-white ${
+        className={` cursor-pointer flex w-full flex-col items-start gap-1 rounded-md px-4 py-3 text-left text-orbit-white ${
           isHighContrastOn
             ? "bg-orbit-muted hover:bg-orbit-blue"
             : "bg-orbit-blue hover:bg-orbit-light-blue"
