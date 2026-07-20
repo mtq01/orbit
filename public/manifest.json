@@ -1,7 +1,7 @@
 {
   "name": "Orbit",
-  "description": "Base Level Extension",
-  "version": "0.1.3",
+  "description": "A light, easy to use, accessibility scanner built with Axe-core. Includes a contrast checker, tab order map, color selector, and an the A11y project accessibility checklist.",
+  "version": "0.1.4",
   "manifest_version": 3,
   "permissions": ["sidePanel", "scripting", "activeTab", "tabs"],
   "host_permissions": ["<all_urls>"],
@@ -9,7 +9,17 @@
     "default_path": "index.html"
   },
   "action": {
-    "default_icon": "saturn.svg"
+    "default_icon": {
+      "16": "saturn-16.png",
+      "48": "saturn-48.png",
+      "128": "saturn-128.png"
+    },
+    "default_title": "Open Orbit"
+  },
+  "icons": {
+    "16": "saturn-16.png",
+    "48": "saturn-48.png",
+    "128": "saturn-128.png"
   },
   "background": {
     "service_worker": "background.js"

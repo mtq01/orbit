@@ -55,6 +55,8 @@ const Scanner = () => {
       files: ["content.js"],
     });
 
+    chrome.tabs.connect(tab.id, { name: "orbit-panel" });
+
     // the side panel is a chrome-extension:// page with full Chrome API access,
     // so it can call tabs.sendMessage directly.
     // SCAN_MESSAGE is a typed constant from types.ts so we never typo the message type.
@@ -67,7 +69,22 @@ const Scanner = () => {
         tab.id,
         SCAN_MESSAGE,
       )) as ScanResponse;
-      setResults(response.results);
+      // TypeScript types disappear before your code runs. They only help while you're writing code, not while it's running.
+      // So when data comes from outside your code (an API for example), TypeScript can't actually check it. as just tells TypeScript to trust you, it doesn't verify anything.
+      // To really check that data, you need real code that runs and looks at it. Zod is a common tool for that. You could also write your own check by hand.
+      console.log("Scan results:", response.results);
+      // v.impact can only be "moderate" | "serious" | "critical" per our own
+      // type, so comparing it to "minor" is proven impossible and TS blocks it.
+      // This cast tells TS to treat it as a plain string instead
+      // we told typescript to treat the response.result as an axeresult, now we are telling it to treat v.impact as a string
+      const filteredViolations = response.results.violations.filter(
+        (v) => (v.impact as string) !== "minor",
+      );
+
+      const newResults: AxeResults = { violations: filteredViolations };
+      console.log("Filtered results:", newResults);
+
+      setResults(newResults);
     } catch {
       setError(
         "Could not connect to the page. Try reloading the tab you want to scan.",
@@ -80,7 +97,7 @@ const Scanner = () => {
   };
 
   return (
-    <section aria-label="Accessibility Scanner" className="h-full">
+    <section aria-label="Accessibility Scanner" className="h-full ">
       {/* Error State: FYI an error will still show in console, but this error msg is whats happening. */}
 
       {isLoading ? (

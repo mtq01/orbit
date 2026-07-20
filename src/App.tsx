@@ -4,7 +4,7 @@ import { useState } from "react";
 // Types
 // We created a custom Type called tab. it only accepts these strings. anything else will throw an error
 import type { Tab } from "./types";
-
+import { CLEAR_ALL_MESSAGE } from "./types";
 // Components
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -24,13 +24,25 @@ const App = () => {
   // Created a handle click funtion that only accepts tab type as a prop. once it receives it, it updates the current state.
   // The syntax is (Prop-name: Type)
 
-  const handleTabClick = (tab: Tab) => {
-    setActiveTab(tab);
+  const handleTabClick = async (newTab: Tab) => {
+    // switch immediately, this doesn't depend on the page at all
+    setActiveTab(newTab);
+
+    // ask chrome which browser tab is currently active
+    const [activeBrowserTab] = await chrome.tabs.query({
+      active: true,
+      lastFocusedWindow: true,
+    });
+
+    if (!activeBrowserTab?.id) return;
+
+    // clear highlighted stops when switching tabs
+    chrome.tabs.sendMessage(activeBrowserTab.id, CLEAR_ALL_MESSAGE);
   };
 
   return (
     // full viewport height for scanner
-    <div className="flex flex-col overflow-hidden h-dvh">
+    <div className="flex flex-col overflow-y-hidden h-dvh ">
       <Header />
 
       {/* nav can be repurposed for Filters */}
@@ -39,12 +51,12 @@ const App = () => {
       <main
         // ID, ROLE, and ARIA-LABELLEDBY should be moved to the FILTERS container when its built ---->>> MAHTAB
         // dynamically sets the panels ID based on the active tab.
-        id={`panel-$activeTab}`}
+        id={`panel-${activeTab}`}
         // tells screen readers, 'this is the content area associated with the active tab'
         role="tabpanel"
         // points back to the active tab btn by its ID (used to announce the panels name, ex "Scanner Tab Panel")
         aria-labelledby={`tab-${activeTab}`}
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-scroll"
       >
         {/* && = only render this component if the condition on the left is true */}
         {activeTab === "scanner" && <Scanner />}
