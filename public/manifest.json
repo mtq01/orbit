@@ -1,6 +1,6 @@
 {
   "name": "Orbit",
-  "description": "A light, easy to use, accessibility scanner built with Axe-core. Includes a contrast checker, tab order map, color selector, and an the A11y project accessibility checklist.",
+  "description": "A light, easy to use, accessibility scanner powered by Axe-core and the A11y project.",
   "version": "0.1.4",
   "manifest_version": 3,
   "permissions": ["sidePanel", "scripting", "activeTab", "tabs"],
