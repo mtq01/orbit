@@ -67,7 +67,8 @@ These record choices already in the code when this file was created. The dates t
 
 | | Decision | Why |
 | --- | --- | --- |
-| ✅ | The manifest version and `dist.zip` change only in a release commit. | Keeps the uploaded build matching one known commit, and keeps other PRs free of large binary diffs (`7b8c29e` and `b7110f2`, release 0.1.5). |
+| ✅ | The manifest version changes only in a release commit. | Keeps the uploaded build matching one known commit (`7b8c29e` and `b7110f2`, release 0.1.5). |
+| ✅ | `dist.zip` is not kept in git. For a release, run `npm run build` and zip `dist/` locally. It is in `.gitignore`. | It's a build output that can be rebuilt from the release commit, and a large binary that changed with every release. Closed November 13, 2026. |
 | ✅ | `CONTEXT.md` and `DECISIONS.md` live in `.claude/`, next to the orbit skill that reads them. | Keeps the project root clean (assumed; PR #69, November 12, 2026). |
 
 ### Checks baseline
@@ -89,11 +90,11 @@ These record choices already in the code when this file was created. The dates t
 | ⬜ | `Tools.tsx` and `ResultCard.tsx` don't catch a failed `sendMessage` and don't refuse restricted pages. | The user clicks and sees nothing happen, with no explanation. |
 | ⬜ | Turning off outlines sets `outline` to `""`, which wipes any inline outline the page had. Save and restore the page's own value instead. | Breaks the promise to leave pages as found. |
 | ⬜ | Remove the `console.log` calls in `Scanner.tsx`. | Debug output in a shipped extension clutters the user's console. |
-| ⬜ | `src/background.js` is an unused copy of `public/background.js`, which is the one that ships. Delete it or say why it stays. | Two copies invite editing the wrong one. |
+| ✅ | `src/background.js` is an unused copy of `public/background.js`, which is the one that ships. Delete it or say why it stays. | Deleted, along with the empty `src/App.css`. Closed November 13, 2026. |
 | ✅ | Update `SCANNER.md`: it describes the older route through `background.js`. | Deleted instead, because `CONTEXT.md` covers how Orbit works today. Closed November 12, 2026. |
 | ⬜ | Decide whether iframes should be scanned. The content script isn't injected into frames today. | Problems inside embedded frames go unreported. |
 | ⬜ | Review whether `tabs`, the `<all_urls>` host permission and the `<all_urls>` content script are all still needed alongside `activeTab` and `scripting`. | The Chrome Web Store reviews every permission, and broad ones slow review or cause rejection. |
-| ⬜ | Decide whether `dist.zip` belongs in git. | It's a large binary that changes with every release. |
+| ✅ | Decide whether `dist.zip` belongs in git. | It doesn't; removed and ignored. Closed November 13, 2026. |
 | ⬜ | Add automated checks. There are no tests today. | Every change is checked by hand in Chrome. |
 | ⬜ | Remove dependencies the code doesn't use: `class-variance-authority`, `clsx`, `tailwind-merge` (shadcn leftovers), `vite-plugin-svgr`, `@fontsource-variable/geist` and `@fontsource/dm-sans`. Check whether `tw-animate-css` is used; it's imported in `index.css`, but no class from it was found. Fix the comments in `vite.config.ts` that say the `@` alias is for shadcn and that it builds two entry points. | Unused packages make installs slower and audits noisier, and the comments describe a setup that's gone. |
 
