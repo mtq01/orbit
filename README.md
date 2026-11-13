@@ -99,4 +99,4 @@ Orbit is an accessibility tool, so its own UI must be accessible too: keyboard o
 
 ## Contact
 
-Questions or feedback: orbit.graduate805@aleeas.com
+Questions or feedback: [orbit](orbit.graduate805@aleeas.com)
