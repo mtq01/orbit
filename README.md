@@ -82,7 +82,7 @@ Built with Vite, React 19, TypeScript, Tailwind CSS 4 and axe-core 4.
 ### Project docs
 
 - [`CONTEXT.md`](.claude/CONTEXT.md) — how Orbit works and the promises it makes. Start here before changing code.
-- [`DECISIONS.md`](.claude/DECISIONS.md) — dated design decisions and open TODOs.
+- [`DECISIONS.md`](docs/DECISIONS.md) — dated design decisions and open TODOs.
 
 ## Contributing
 
