@@ -54,7 +54,7 @@ These record choices already in the code when this file was created. The dates t
 - [ ] **TODO**: Turning off outlines sets `outline` to `""`, which wipes any inline outline the page had. Save and restore the page's own value instead.
 - [ ] **TODO**: Remove the `console.log` calls in `Scanner.tsx`.
 - [ ] **TODO**: `src/background.js` is an unused copy of `public/background.js`, which is the one that ships. Delete it or say why it stays.
-- [ ] **TODO**: Update `SCANNER.md`: it describes the older route through `background.js`.
+- [x] **TODO**: Update `SCANNER.md`: it describes the older route through `background.js`. Deleted instead, because `CONTEXT.md` covers how Orbit works today (closed November 12, 2026).
 - [ ] **TODO**: Decide whether iframes should be scanned. The content script isn't injected into frames today.
 - [ ] **TODO**: Review whether `tabs`, the `<all_urls>` host permission and the `<all_urls>` content script are all still needed alongside `activeTab` and `scripting`, for the Chrome Web Store review.
 - [ ] **TODO**: Decide whether `dist.zip` belongs in git.

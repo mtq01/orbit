@@ -1,7 +1,7 @@
 # Orbit: Project Context
 
 The product blueprint: what Orbit is, how its parts fit together, and what it promises.
-Read this before changing Orbit. `DECISIONS.md` records the choices made and the open TODOs. `SCANNER.md` is a step-by-step tutorial on how the scanner was built. When this file and the code disagree, the code is what's true today; fix this file.
+Read this before changing Orbit. `DECISIONS.md` records the choices made and the open TODOs. When this file and the code disagree, the code is what's true today; fix this file.
 
 ---
 
@@ -41,7 +41,7 @@ The send sequence every feature uses today (in `Scanner.tsx`, `Tools.tsx`, `Resu
 4. Open a port named `orbit-panel`. When the panel closes, the port disconnects and the content script runs `clearAll()`.
 5. Send a typed message constant from `types.ts` with `chrome.tabs.sendMessage` and await the response.
 
-The panel talks to the content script **directly**. The older route through `background.js` (described in `SCANNER.md`) is commented out.
+The panel talks to the content script **directly**. The older route through `background.js` is commented out.
 
 ### Messages
 
