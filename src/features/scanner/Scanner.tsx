@@ -1,6 +1,7 @@
 import { useState } from "react";
-import type { AxeResults, ScanResponse } from "../../types";
-import { SCAN_MESSAGE } from "../../types";
+import type { AxeResults } from "../../types";
+import type { ScanResponse } from "../../messages";
+import { SCAN_MESSAGE } from "../../messages";
 import PreScan from "./PreScan";
 import NoIssue from "./NoIssue";
 import Loader from "./Loader";

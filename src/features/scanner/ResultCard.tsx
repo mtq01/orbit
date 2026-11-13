@@ -1,5 +1,5 @@
 import type { AxeResult } from "../../types";
-import type { HighlightEl } from "../../types";
+import type { HighlightEl } from "../../messages";
 import { useEffect, useState } from "react";
 import { html as beautify } from "js-beautify";
 
