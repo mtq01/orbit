@@ -83,7 +83,6 @@ Built with Vite, React 19, TypeScript, Tailwind CSS 4 and axe-core 4.
 
 - [`CONTEXT.md`](CONTEXT.md) — how Orbit works and the promises it makes. Start here before changing code.
 - [`DECISIONS.md`](DECISIONS.md) — dated design decisions and open TODOs.
-- [`SCANNER.md`](SCANNER.md) — a step-by-step walkthrough of how the scanner was first built. Parts of it describe an older message route through the background worker.
 
 ## Contributing
 
