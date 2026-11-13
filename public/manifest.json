@@ -1,7 +1,7 @@
 {
   "name": "Orbit",
   "description": "A light, easy to use, accessibility scanner powered by Axe-core and the A11y project.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "manifest_version": 3,
   "permissions": ["sidePanel", "scripting", "activeTab", "tabs"],
   "host_permissions": ["<all_urls>"],
