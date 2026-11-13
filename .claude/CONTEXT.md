@@ -76,7 +76,7 @@ The panel talks to the content script **directly**. The older route through `bac
 - `npx tsc -b --noEmit`: the type check. It passes today.
 - `npm run lint`: ESLint. It has existing problems today; see `DECISIONS.md` for the baseline.
 - To try a build: open `chrome://extensions`, turn on Developer mode, choose "Load unpacked" and select `dist/`. After each rebuild, reload the extension **and** the page you're testing, or the page keeps the old content script.
-- Release: bump `version` in `public/manifest.json` and zip `dist/` (`dist.zip` is committed).
+- Release: bump `version` in `public/manifest.json` and zip `dist/` locally (`dist.zip` is ignored by git, not committed).
 - Branches: `feature/*` (or similar) → PR into `staging` → `main`. GitHub: `mtq01/orbit`.
 
 ## Code style

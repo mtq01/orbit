@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // resolve, alias, is for shadUI
+  // lets imports use "@/..." as a shortcut for "src/..."
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
@@ -15,11 +15,11 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 10000,
     rollupOptions: {
-      // tells vite: compile 2 entry points, the React app & content script.
+      // tells vite: compile the React side panel. content.ts is bundled separately by esbuild (see "build" in package.json).
       input: {
         main: resolve(__dirname, "index.html"),
       },
-      // tells vite: name the output files after their input names (content.ts = content.js)
+      // tells vite: name the output files after their input names (main = main.js)
       output: {
         entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
