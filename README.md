@@ -81,8 +81,8 @@ Built with Vite, React 19, TypeScript, Tailwind CSS 4 and axe-core 4.
 
 ### Project docs
 
-- [`CONTEXT.md`](CONTEXT.md) — how Orbit works and the promises it makes. Start here before changing code.
-- [`DECISIONS.md`](DECISIONS.md) — dated design decisions and open TODOs.
+- [`CONTEXT.md`](.claude/CONTEXT.md) — how Orbit works and the promises it makes. Start here before changing code.
+- [`DECISIONS.md`](.claude/DECISIONS.md) — dated design decisions and open TODOs.
 
 ## Contributing
 
@@ -99,4 +99,4 @@ Orbit is an accessibility tool, so its own UI must be accessible too: keyboard o
 
 ## Contact
 
-Questions or feedback: orbit.graduate805@aleeas.com
+Questions or feedback: [Orbit Email](orbit.graduate805@aleeas.com)
