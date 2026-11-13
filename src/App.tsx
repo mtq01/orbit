@@ -4,7 +4,7 @@ import { useState } from "react";
 // Types
 // We created a custom Type called tab. it only accepts these strings. anything else will throw an error
 import type { Tab } from "./types";
-import { CLEAR_ALL_MESSAGE } from "./types";
+import { CLEAR_ALL_MESSAGE } from "./messages";
 // Components
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";

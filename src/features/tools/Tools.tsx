@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { HIGHLIGHT_MESSAGE, CLEAR_HIGHLIGHT_MESSAGE } from "../../types";
-import type { HighlightResponse } from "../../types";
+import {
+  HIGHLIGHT_MESSAGE,
+  CLEAR_HIGHLIGHT_MESSAGE,
+  highContrastMessage,
+} from "../../messages";
+import type { HighlightResponse } from "../../messages";
 
 const Tools = () => {
   const [isHighContrastOn, setIsHighContrastOn] = useState(false);
@@ -50,7 +54,7 @@ const Tools = () => {
       files: ["content.js"],
     });
     chrome.tabs.connect(tab.id, { name: "orbit-panel" });
-    await chrome.tabs.sendMessage(tab.id, { type: "RUN_HIGH_CONTRAST", on });
+    await chrome.tabs.sendMessage(tab.id, highContrastMessage(on));
   };
 
   if (showOrderResults) {

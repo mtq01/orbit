@@ -20,7 +20,7 @@ Stack: Vite 8, React 19, TypeScript 6, Tailwind CSS 4, axe-core 4. The checklist
 | Colors | `src/features/colors/` | Contrast checker for two hex colors, with an eyedropper. The math lives in `Contrast.ts` (WCAG thresholds). |
 | Checklist | `src/features/checklist/` | The A11Y Project checklist with tick boxes. Ticks are saved on the device. |
 
-Shared pieces: `src/App.tsx` (tab switching), `src/components/` (Header, Nav, Footer), `src/types.ts` (tabs, axe result shapes, every message type).
+Shared pieces: `src/App.tsx` (tab switching), `src/components/` (Header, Nav, Footer), `src/types.ts` (tabs, axe result shapes), `src/messages.ts` (every message type and constant).
 
 ## How the parts talk
 
@@ -39,7 +39,7 @@ The send sequence every feature uses today (in `Scanner.tsx`, `Tools.tsx`, `Resu
 2. Refuse pages Chrome won't let extensions touch (`chrome://`, `chrome-extension://`) with a plain message. Only the Scanner does this today.
 3. Inject `content.js` with `chrome.scripting.executeScript`, so tabs opened before Orbit was installed still work.
 4. Open a port named `orbit-panel`. When the panel closes, the port disconnects and the content script runs `clearAll()`.
-5. Send a typed message constant from `types.ts` with `chrome.tabs.sendMessage` and await the response.
+5. Send a typed message constant from `messages.ts` with `chrome.tabs.sendMessage` and await the response.
 
 The panel talks to the content script **directly**. The older route through `background.js` is commented out.
 

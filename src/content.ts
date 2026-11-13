@@ -1,5 +1,6 @@
 // brings axe-core in. vite will bundle it to dist/content.js
 import axe from "axe-core";
+import type { PageMessage } from "./messages";
 // storing all focusable elements ia a variable for future use
 const focusable =
   "a[href], button, input, select, textarea, details, [tabindex]:not([tabindex='-1'])";
@@ -72,7 +73,7 @@ const clearAll = () => {
   clearContrast();
 };
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: PageMessage, _sender, sendResponse) => {
   // only react to msgs asking for a scan specifically.
   if (message.type === "RUN_SCAN") {
     // runs the axe-core scan async and sends results back to sidepanel.tsx

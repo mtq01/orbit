@@ -75,7 +75,7 @@ A Chrome extension is several separate programs:
 | Background worker | `public/background.js` | Makes the toolbar icon open the side panel. Nothing else. |
 | Manifest | `public/manifest.json` | Permissions, side panel path, icons and content script. |
 
-The side panel injects the content script into the active tab and talks to it directly with `chrome.tabs.sendMessage`. Message types are defined in `src/types.ts`. Each tab's code lives in its own folder under `src/features/`.
+The side panel injects the content script into the active tab and talks to it directly with `chrome.tabs.sendMessage`. Message types are defined in `src/messages.ts`. Each tab's code lives in its own folder under `src/features/`.
 
 Built with Vite, React 19, TypeScript, Tailwind CSS 4 and axe-core 4.
 
