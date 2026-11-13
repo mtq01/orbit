@@ -14,7 +14,7 @@ Stack: Vite 8, React 19, TypeScript 6, Tailwind CSS 4, axe-core 4. The checklist
 ## The four tabs
 
 | Tab | Folder | What it does |
-|---|---|---|
+| --- | --- | --- |
 | Scanner | `src/features/scanner/` | Runs axe-core on the active tab and lists violations by impact (critical, serious, moderate). Opening a result outlines the element on the page. |
 | Tools | `src/features/tools/` | "See the tab order" numbers every keyboard stop on the page. "High contrast" overlays a black, white and yellow style. |
 | Colors | `src/features/colors/` | Contrast checker for two hex colors, with an eyedropper. The math lives in `Contrast.ts` (WCAG thresholds). |
@@ -27,7 +27,7 @@ Shared pieces: `src/App.tsx` (tab switching), `src/components/` (Header, Nav, Fo
 A Chrome extension is several separate programs:
 
 | Part | File | Job |
-|---|---|---|
+| --- | --- | --- |
 | Side panel | `index.html` → `src/main.tsx` → `src/App.tsx` | All the UI and state. Has full Chrome API access. |
 | Content script | `src/content.ts` (built to `dist/content.js` by esbuild) | Runs inside the web page. Runs axe and draws every outline, number label, tint and high-contrast style. |
 | Background service worker | `public/background.js` | Only makes the toolbar icon open the side panel. Holds no state, and Chrome can stop it at any time. |
@@ -46,7 +46,7 @@ The panel talks to the content script **directly**. The older route through `bac
 ### Messages
 
 | Message | Sent from | Content script does | Responds |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `RUN_SCAN` | Scanner | `axe.run()` | `{ success, results }` |
 | `HighlightEl` (+ `selector`) | ResultCard | outlines one element, or tints the page for `html` | nothing |
 | `RUN_HIGHLIGHT` | Tools | numbers every focusable element | `{ success, count }` |
