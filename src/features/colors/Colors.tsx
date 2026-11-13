@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Pipette } from "lucide-react";
 import { contrastRatio, wcagResults } from "./Contrast";
 
@@ -15,51 +15,6 @@ const Colors = () => {
 
   const ratio = contrastRatio(fg, bg);
   const results = ratio ? wcagResults(ratio) : null;
-
-  const pickColor = async (set: (v: string) => void) => {
-    if (!window.EyeDropper) return;
-    try {
-      const { sRGBHex } = await new window.EyeDropper().open();
-      set(sRGBHex);
-    } catch {
-      // user pressed Esc — ignore
-    }
-  };
-
-  const ColorInput = ({
-    label,
-    value,
-    onChange,
-  }: {
-    label: string;
-    value: string;
-    onChange: (v: string) => void;
-  }) => (
-    <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-orbit-blue">{label}</label>
-      <div className="flex items-center gap-2">
-        <span
-          className="h-9 w-9 shrink-0 rounded border border-orbit-muted"
-          style={{ backgroundColor: value }}
-        />
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-28 rounded-md border border-orbit-muted px-2 py-1 font-code text-sm"
-        />
-        {window.EyeDropper && (
-          <button
-            onClick={() => pickColor(onChange)}
-            aria-label={`Sample ${label.toLowerCase()} color from screen`}
-            title="Pick a color from your screen"
-            className="cursor-pointer rounded-md bg-orbit-blue p-2 text-orbit-white hover:bg-orbit-light-blue"
-          >
-            <Pipette size={16} />
-          </button>
-        )}
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -95,6 +50,67 @@ const Colors = () => {
       ) : (
         <p className="text-sm text-critical">Enter two valid hex colors.</p>
       )}
+    </div>
+  );
+};
+
+// Opens the browser's eyedropper and hands the picked color to `set`.
+// It must be called straight from a click, because the browser only
+// opens the eyedropper in response to a user action.
+const pickColor = async (set: (v: string) => void) => {
+  if (!window.EyeDropper) return;
+  try {
+    const { sRGBHex } = await new window.EyeDropper().open();
+    set(sRGBHex);
+  } catch {
+    // user pressed Esc — ignore
+  }
+};
+
+// ColorInput lives out here, not inside Colors. A component defined inside
+// another one is rebuilt on every render, so React would throw away the
+// input and its keyboard focus each time you type a character.
+const ColorInput = ({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) => {
+  // useId gives each copy of ColorInput its own unique id. Linking the label
+  // to the input with it means clicking the label focuses the right input,
+  // and screen readers read the label when the input gets focus.
+  const id = useId();
+
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-sm font-medium text-orbit-blue">
+        {label}
+      </label>
+      <div className="flex items-center gap-2">
+        <span
+          className="h-9 w-9 shrink-0 rounded border border-orbit-muted"
+          style={{ backgroundColor: value }}
+        />
+        <input
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-28 rounded-md border border-orbit-muted px-2 py-1 font-code text-sm"
+        />
+        {window.EyeDropper && (
+          <button
+            onClick={() => pickColor(onChange)}
+            aria-label={`Sample ${label.toLowerCase()} color from screen`}
+            title="Pick a color from your screen"
+            className="cursor-pointer rounded-md bg-orbit-blue p-2 text-orbit-white hover:bg-orbit-light-blue"
+          >
+            <Pipette size={16} />
+          </button>
+        )}
+      </div>
     </div>
   );
 };
