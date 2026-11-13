@@ -14,7 +14,7 @@ description: Runs a build task for Orbit, a Chrome Manifest V3 side-panel access
    - If you can't, do the worker's job yourself in this conversation, using only those inputs.
 4. Save each step's output in a temporary task folder `<name>-<task-slug>/` inside `$TMPDIR` (outside the repo), as `research.md`, `plan.md` and `review.md`. The work itself goes in the repo. `<name>` is this file's `name`; `<task-slug>` is a short kebab-case name for the task. Save nothing else about the conversation anywhere. At step 7, say where the task folder is and ask whether to keep or delete it; delete it unless the user says keep.
 5. **Ask, then wait.** Number your questions. Only the user answers them, and only the user's own reply counts as an answer or plan approval; do not approve it yourself.
-6. **Project files.** Before step 1, read `CONTEXT.md` (the product blueprint: what Orbit does, its parts, the message list, its promises, known limits) and `DECISIONS.md` (dated decisions, the checks baseline and open TODOs) from `.claude/`. A `DECISION` in `DECISIONS.md` overrides `CONTEXT.md`; a later entry overrides an earlier one. `README.md` is the public readme, not a source of rules. Hand `CONTEXT.md` and `DECISIONS.md` to every worker as part of the Rules.
+6. **Project files.** Before step 1, read `.claude/CONTEXT.md` (the product blueprint: what Orbit does, its parts, the message list, its promises, known limits) and `docs/DECISIONS.md` (dated decisions, the checks baseline and open TODOs). When they conflict, `DECISIONS.md` wins, and within `DECISIONS.md` a later entry overrides an earlier one. `README.md` is the public readme, not a source of rules. Hand both files to every worker as part of the Rules.
 
 ## Steps
 
